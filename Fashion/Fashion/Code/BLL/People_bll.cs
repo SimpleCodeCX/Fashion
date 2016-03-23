@@ -120,7 +120,17 @@ namespace Fashion.Code.BLL
             return UrlTouXiangObj.ToString();
         }
 
-
+        /// <summary>
+        /// 通过用户名得到用户Id，返回用户Id
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public int GainUserId(string userName)
+        {
+            User_dal user = new User_dal();
+            int userId = (int)user.GetUserId(userName);
+            return userId;
+        }
 
         
         /// <summary>

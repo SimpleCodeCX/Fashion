@@ -277,7 +277,19 @@ namespace Fashion.Code.DAL
                 
             
         //}
-    
+        /// <summary>
+        /// 通过用户名查询该用户的ID，返回类型为object
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public object GetUserId(string userName)
+        {
+            string sqlStr = "select USER_ID from [tb_User] where User_Name = @userName";
+            SqlParameter[] parameters = new SqlParameter[]{
+                new SqlParameter("@userName",userName)
+            };
+            return SqlHelper.ExecuteScalar(sqlStr, parameters);
+        }
 
     }
 }

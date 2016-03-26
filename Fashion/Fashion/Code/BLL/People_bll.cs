@@ -52,6 +52,8 @@ namespace Fashion.Code.BLL
         /// <returns></returns>
         public bool LoginYes(string userName,string password)
         {
+            
+            
             User_dal user_dal = new User_dal();
             /*object AccountCount = user_dal.GetAccountCount(userName);//用户的数量
             //null代表数据库不存在该数据，System.DBNull.Value代表数据库里存在数据，但是该字段的值为null
@@ -120,7 +122,17 @@ namespace Fashion.Code.BLL
             return UrlTouXiangObj.ToString();
         }
 
-
+        /// <summary>
+        /// 通过用户名得到用户Id，返回用户Id
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public int GainUserId(string userName)
+        {
+            User_dal user = new User_dal();
+            int userId = (int)user.GetUserId(userName);
+            return userId;
+        }
 
         
         /// <summary>

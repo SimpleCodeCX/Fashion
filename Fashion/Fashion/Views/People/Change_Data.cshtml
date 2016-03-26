@@ -78,6 +78,7 @@
 </style>
 <link href="~/Content/Peaple_upload_tx.css" rel="stylesheet" />
 <script>
+    
     function Save_Change() {      //点击保存弹出保存成功窗口
         alert('保存成功！')
     }
@@ -110,9 +111,9 @@
         $('#btnCrop').on('click', function () {
             var img = cropper.getDataURL();
             $('.cropped').html('');
-            $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:20px;margin-top:15px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>20px*20px</p>');
-            $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:40px;margin-top:12px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>40px*40px</p>');
-            $('.cropped').append('<img src="' + img + '" align="absmiddle" style="width:120px;margin-top:12px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>120px*120px</p>');
+            $('.cropped').append('<img src="' + img + '" id="imgSmall" align="absmiddle" style="width:20px;margin-top:15px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>20px*20px</p>');
+            $('.cropped').append('<img src="' + img + '" id="imgMiddle"  align="absmiddle" style="width:40px;margin-top:12px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>40px*40px</p>');
+            $('.cropped').append('<img src="' + img + '" id="imgBig"  align="absmiddle" style="width:120px;margin-top:12px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>120px*120px</p>');
         })
         $('#btnZoomIn').on('click', function () {
             cropper.zoomIn();
@@ -347,7 +348,34 @@
 
     });
 </script>
+<script type="text/javascript">
 
+    function getBase64Image(img) {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        var dataURL = canvas.toDataURL("image/png");
+        return dataURL.substr(dataURL.indexOf(",") + 1)//去掉base64的格式头，因为格式头不属于图片的数据，否则后台将图片的base64保存为图片时会出错
+    }
+
+    
+    function Save_Change_TouXiang()
+    {
+        var imgTouXiang = document.getElementById("imgBig");
+        var imgBase64 = getBase64Image(imgTouXiang);
+        $.ajax({
+            url: "UploadTouXiang",
+            data: { data1: imgBase64 },
+            type:"post",
+            success: function (data) {
+                alert(data);
+            }
+        });
+        
+    }
+</script>
 <div id="change_data_tab" class="tab_bar">
     <h2 class="tab_ing">修改资料</h2>
 </div>
@@ -381,7 +409,7 @@
         </tr>
 
     </table>
-    <div class="baocun" onclick="Save_Change()">保存</div>
+    <div class="baocun" id="baoCunTouXiang" onclick="Save_Change_TouXiang()">保存</div>
 </div>
 <div style="width: 100%; margin-bottom: 80px; float: left;">
     <table cellspacing="10" style="float:left;">

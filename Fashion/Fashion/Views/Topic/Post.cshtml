@@ -221,10 +221,10 @@
                 我想咨询
             </div>
         </div>
-        <form action="Answer">
+        <form action="postData">
             <div id="form">
                 <div id="form_one">
-                    <input type="text" placeholder="写下你的问题" id="user_search" class="question" onchange="answer(this.id)" oninput="answer(this.id)" />
+                    <input type="text" placeholder="写下你的问题" id="user_search" name="question" class="question" onchange="answer(this.id)" oninput="answer(this.id)" />
                 </div>
                 <div>
                     <div style=" display:inline-block;"><p>问题说明（可选）：</p></div>
@@ -238,48 +238,47 @@
                     <p class="p2">话题越精准，越容易让相关领域专业人士看到你的问题</p>
                 </div>
                 <!--
-                    复选框风格
+                复选框风格
 
-                     <div style="float:left; width:100%; padding:0px 0px 5px 80px;">
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox"/>流行
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />男生
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />女生
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />风格
-                        </div>
+                 <div style="float:left; width:100%; padding:0px 0px 5px 80px;">
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox"/>流行
                     </div>
-                    <div style="float:left; width:100%; padding:0px 0px 20px 80px;">
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />首饰
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />时装
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />街拍
-                        </div>
-                        <div style="float:left ;width:60px;">
-                            <input type="checkbox" />技巧
-                        </div>
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />男生
                     </div>
-                    -->
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />女生
+                    </div>
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />风格
+                    </div>
+                </div>
+                <div style="float:left; width:100%; padding:0px 0px 20px 80px;">
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />首饰
+                    </div>
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />时装
+                    </div>
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />街拍
+                    </div>
+                    <div style="float:left ;width:60px;">
+                        <input type="checkbox" />技巧
+                    </div>
+                </div>
+                -->
                 <!-- 下拉列表风格-->
                 <div style="float:left; width:100%; padding:0px 0px 15px 0px;">
-                    <select name="cars" style="width: 480px; height: 30px; border-radius: 4px;">
-                        <option value="流行">流行</option>
-                        <option value="女生">女生</option>
-                        <option value="男生">男生</option>
-                        <option value="风格">风格</option>
-                        <option value="首饰">首饰</option>
-                        <option value="时装">时装</option>
-                        <option value="街拍">街拍</option>
-                        <option value="技巧">技巧</option>
+                    <select name="theme" style="width: 480px; height: 30px; border-radius: 4px;">
+                        <option value="发型">发型</option>
+                        <option value="饰品">饰品</option>
+                        <option value="女装">女装</option>
+                        <option value="男装">男装</option>
+                        <option value="鞋帽">鞋帽</option>
+                        <option value="箱包">箱包</option>
+                        <option value="其他">其他</option>
                     </select>
                 </div>
                 <br />

@@ -87,6 +87,35 @@ namespace Fashion.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 提交数据
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult postData()
+        {
+
+            Post_bll Post = new Post_bll();
+            Theme_bll themeName = new Theme_bll();
+            People_bll User = new People_bll();
+            string caption = Request["question"].ToString();
+            string content = Request["content"].ToString();
+            string userName = Session["userName"].ToString();
+            int userId = User.GainUserId(userName);
+            string theme = Request["theme"].ToString();
+            int themeId = themeName.CollocateThemeId(theme);
+
+
+            //判断用户提问是否成功，成功返回主页面，失败返回提问页面
+            if (Post.finshInsert(caption, content, userId, themeId) == 1)
+            {
+                return RedirectToAction("Home");
+            }
+            else
+            {
+                return RedirectToAction("Post");
+            }
+        }
         /// <summary>
         /// 验证登录是否成功；
         /// 若登录失败，设置ViewData["LoginYes"] = 0；

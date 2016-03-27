@@ -5,24 +5,46 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <script src="~/Scripts/jquery-2.0.0.min.js"></script>
-
+    <script src="~/Scripts/MyScripts/Login.js"></script>
     <script>
         $(document).ready(function () {
-            isLoginDisplay();//判断是否已经登录
-        });
 
-        //本函数实现判断用户是否已经登录，如果为登录就。。。。。。如果登录就。。。。。
-        function isLoginDisplay() {
-            var isLogin = 1;//1代表已经登录，0代表未登录
-            if (isLogin == 1) {
-                document.getElementById("login_xs").style.display = "block";
-                document.getElementById("un_login_xs").style.display = "none";
+            //配置登录信息的变量,登录状态 登录名 头像url等
+            var isLogin = "@ViewData["LoginYes"]";//已登录：1；   未登录：0；
+            var touXiangUrl=""; //用户头像url
+            var userName="";  //用户名
+               if(isLogin=="1")
+            {
+                touXiangUrl = "@ViewData["TouXiangUrl"]";//这里是从后端传回来的值，是字符串，所以要加引号,不能加tostring
+                userName="@ViewData["userName"]";
+               }
+            /////配置变量完毕
+            //////若登陆成功，设置本页面的用户信息
+            if (isLogin == "1")
+            {
+                $("#theUserNameFont").text(userName);
+                $("#theUserNameA").text(userName);
+                $("#theUserTouXiangImg").attr("src", touXiangUrl);
+                $("#img_touXiang").attr("src", touXiangUrl);
             }
-            else {
-                document.getElementById("un_login_xs").style.display = "block";
-                document.getElementById("login_xs").style.display = "none";
-            }
-        }
+            /////设置用户信息完毕
+            IsLoginDisplay(isLogin, "login_xs", "un_login_xs");//根据用户是否登录显示导航栏的用户信息
+        });
+        
+        ////实现根据用户是否登录成功来设置导航栏的用户登录或未登录状态
+        //function makeLoginDisplay(isLogin) {
+        //    if (isLogin == "1") {
+        //        LoginYesDisplay("login_xs", "un_login_xs");//本函数位于：~/Scripts/MyScripts/Login.js
+        //    }
+        //    else {
+        //        UnLoginDisplay("login_xs", "un_login_xs");//本函数位于：~/Scripts/MyScripts/Login.js
+        //    }
+        //}
+
+
+        //function InitLoginYes() {
+            
+        //}
     </script>
     <style>
         #top {
@@ -305,8 +327,8 @@
         </div>
         <ul class="username" id="login_xs" style="display:block;">
             <li class="li_css" onclick="window.location.href = '../../People/Index';">
-                <img src="~/Images/UserImages/TouXiang/111.png" style="width:20px;margin-top:8px;" class="img_jiange" />
-                linjiejie
+                <img id="img_touXiang" style="width:20px;margin-top:8px;" class="img_jiange" />
+                <font id="theUserNameFont"></font>
                 <ul class="userset">
                     <li class="li_css" onclick="window.location.href = '../../People/Index';">
                         <img src="~/Images/Layout-myzhuye.png" class="img_jiange" />我的主页
@@ -326,10 +348,10 @@
     </div>
     <div id="Left_div" class="Left_div">
         <div id="touxiangkuang" class="touxiangkuang" onclick="window.location.href = '../People/Index'">
-            <img src="~/Images/UserImages/TouXiang/111.png" />
+            <img id="theUserTouXiangImg" />
         </div>
         <div class="Left_div_user_name">
-            <a href="../People/Index">linjiejie</a>
+            <a id="theUserNameA" href="../People/Index"></a>
         </div>
         <div class="meau">
             <div class="Peaple_meau" style="margin-left:28%;" onclick="window.location.href = '../People/Focus'"><em class="People_meau_number">0</em><div>关注</div></div>

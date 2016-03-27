@@ -270,7 +270,9 @@
     <Content Include="Images\Topic-Home-zixun.png" />
     <Content Include="Images\UserImages\TouXiang\111.png" />
     <Content Include="Scripts\date_rl_js\laydate.js" />
+    <Content Include="Scripts\MyScripts\ImageFun.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\MyScripts\Login.js" />
     <Content Include="Scripts\upload_tx_js\cropbox.js" />
     <Content Include="Scripts\upload_tx_js\jquery-1.11.1.min.js" />
     <Content Include="Images\people-error.png" />

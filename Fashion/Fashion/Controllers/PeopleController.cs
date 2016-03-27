@@ -16,6 +16,7 @@ namespace Fashion.Controllers
         public ActionResult Index()
         {
         //return JavaScript(@"alert(""dddd"")");            
+            LoginStatusConfig();
             return View();
         }
        
@@ -151,10 +152,11 @@ namespace Fashion.Controllers
 
         public ActionResult Change_Data()
         {
+            LoginStatusConfig();
             return View();
         }
         /// <summary>
-        /// 获取前端传过来的图片的base64数据，保存到本地，并且在数据库里添加纪录，成功返回1
+        /// 获取前端传过来的头像的图片的base64数据，保存到本地/Images/UserImages/TouXiang/文件夹下，并且在数据库里添加纪录，成功返回1
         /// 用于Change_Data页面
         /// </summary>
         /// <returns></returns>
@@ -179,11 +181,80 @@ namespace Fashion.Controllers
         }
 
 
-       
+        /// <summary>
+        /// 获取前端传过来的全身照的图片的base64数据，保存到本地/Images/UserImages/QuanShenZhao/文件夹下，并且在数据库里添加纪录，成功返回1
+        /// 用于Change_Data页面
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UploadQuanShenZhao()
+        {
+            //判断是否登录，未登录返回0
+            if (Session["userName"] == null)
+            {
+                return Content("0");
+            }
+            string userName = Session["userName"].ToString();
+            byte[] imgBase64Byte = Convert.FromBase64String(Request["data1"]);//将图片数据转化为base64的格式
+            System.IO.MemoryStream ms = new System.IO.MemoryStream(imgBase64Byte);
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(ms);
+            //接下来将图片保存在本地
+            bitmap.Save(Server.MapPath("~/Images/UserImages/QuanShenZhao/" + userName + ".png"), System.Drawing.Imaging.ImageFormat.Png);
+            People_bll people = new People_bll();
+            //将图片的路径保存到数据库
+            people.InsertUrlQuanShenZhao(userName, ".png");
+            return Content("1");
+        }
 
 
 
 
+
+
+        ///// <summary>
+        ///// 验证登录是否成功；
+        ///// 若登录失败，设置ViewData["LoginYes"] = 0；
+        ///// 若登录成功，设置ViewData["LoginYes"] = 1；并且从数据库里取出用户头像的链接：ViewData["TouXiangUrl"] =...；
+        ///// </summary>
+        //public void CheckLogin()
+        //{
+        //    if (Session["userName"] == null)
+        //    {//未登录
+        //        ViewData["LoginYes"] = 0;
+
+        //    }
+        //    else
+        //    {//已登录
+        //        ViewData["LoginYes"] = 1;
+        //        ViewData["userName"] = Session["userName"].ToString();
+        //        People_bll peopleBll = new People_bll();
+        //        ViewData["TouXiangUrl"] = peopleBll.GetImgUrlTouXiang(Session["userName"].ToString());//从数据库里获取头像url
+        //    }
+        //}
+
+
+
+        /// <summary>
+        /// 配置用户登录状态
+        /// 如果已登录，返回true，并且设置登录状态：设置ViewData["LoginYes"] = 1；并且从数据库里取出用户头像的链接：ViewData["TouXiangUrl"] =...；
+        /// 未登录返回false,并且设置ViewData["LoginYes"] = 0
+        /// </summary>
+        /// 
+
+        public bool LoginStatusConfig()
+        {
+            if (Session["userName"] == null)
+            {//未登录
+                ViewData["LoginYes"] = 0;
+                return false;
+            }
+            //已登录
+            ViewData["LoginYes"] = 1;
+            ViewData["userName"] = Session["userName"].ToString();
+            People_bll peopleBll = new People_bll();
+            ViewData["TouXiangUrl"] = peopleBll.GetImgUrlTouXiang(Session["userName"].ToString());//从数据库里获取头像url
+            return true;
+        }
      
     }
 }

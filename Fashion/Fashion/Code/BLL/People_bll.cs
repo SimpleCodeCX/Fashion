@@ -157,6 +157,30 @@ namespace Fashion.Code.BLL
         }
 
 
+        /// <summary>
+        /// 实现将用户的全身照的url插入到数据库的功能，url为相对路径如：/Images/UserImages/QuanShenZhao/userName.png
+        /// 成功返回true 失败返回false
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="ImgExtension">图片扩展名</param>
+        /// <returns></returns>
+        public bool InsertUrlQuanShenZhao(string userName, string ImgExtension)
+        {
+            string QuanShenZhaoUrl = "/Images/UserImages/TouXiang/" + userName + ImgExtension;
+            User_dal user_dal = new User_dal();
+            int NonqCount = user_dal.InsertUrlQuanShenZhao(userName, QuanShenZhaoUrl);//受影响的函数
+            if (NonqCount == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+
 
 
         /////////////////////////////////////////////

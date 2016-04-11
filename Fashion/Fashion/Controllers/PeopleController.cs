@@ -8,11 +8,17 @@ using System.Web.Mvc;
 
 namespace Fashion.Controllers
 {
+     
+
     public class PeopleController : Controller
     {
         //
         // GET: /People/
+        public ActionResult Expert_Register()
+        {
 
+            return View();
+        }
         public ActionResult Index()
         {
 

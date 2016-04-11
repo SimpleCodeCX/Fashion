@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <script src="~/Scripts/jquery-2.0.0.min.js"></script>
+    <script src="~/Scripts/MyScripts/Login.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.js"></script>
+    <link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <style>
+        #top {
+            color: white;
+            background-color: black;
+            font-size: 1em;
+            padding: 5px 0;
+        }
+        .fengefu {
+            margin: 0 15px;
+            float: right;
+        }
+        .top-right {
+            float: right;
+        }
+
+            .top-right a {
+                color: white;
+                text-decoration: none;
+            }
+
+                .top-right a:hover {
+                    color: #fa6214;
+                }
+        #ShareTubiao img {
+            float: right;
+            margin: 0px 6px;
+        }
+    </style>
+       
+    <div id="top">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 col-xs-12">
+                <div style="float:left;cursor:pointer;padding-left:15px;" onclick="window.location.href = '../Topic/Home'">
+                    时尚达人&nbsp;|&nbsp;FASHION
+                </div>
+                <div id="ShareTubiao">
+                    <a href="" title="分享到QQ"><img src="/Images/Layout-qq.png" /></a>
+                    <a href="" title="分享到微信"><img src="/Images/Layout-weixin.png" /></a>
+                    <a href="" title="分享到微博"><img src="/Images/Layout-weibo.png" /></a>
+                </div>
+                <div id="un_login_xs" style="width:150px;float:right;">
+
+                    <div class="fengefu">|</div>
+                    <div class="top-right">
+                        <a href="../../People/Login">登录</a>
+                    </div>
+                    <div class="fengefu">|</div>
+                    <div class="top-right">
+                        <a href="../../People/Register">注册</a>
+                    </div>
+                    <div class="fengefu">|</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="theContainer">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

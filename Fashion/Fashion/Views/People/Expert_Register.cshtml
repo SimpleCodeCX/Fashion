@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Expert_Register";
+    Layout = "~/Views/Shared/Top_nu_menu.cshtml";
+}
+<link href="~/Content/expert-register.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-sm-8" style="text-align:center;">
+            <h3>专家注册</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-sm-8">
+            <ul id="ExpertRegisterNav" class="nav nav-tabs">
+                <li>
+                    <a href="#BaseData" data-toggle="tab">
+                        基本资料
+                    </a>
+                </li>
+                <li class="active"><a href="#FashionTest" data-toggle="tab">时尚考核</a></li>
+                <li class="active"><a href="#ios" data-toggle="tab">iOS</a></li>
+                
+            </ul>
+            <div id="ExpertRegisterNavContent" class="tab-content">
+                <div class="tab-pane fade" id="BaseData">
+                    <div class="row">
+                         <div class="col-md-offset-2 col-sm-8">
+                            <form>
+                                <input name="utf8" type="hidden" value="✓">
+                                <input type="hidden" name="_method" value="patch">
+                                <div class="form-group">
+                                    <h3>昵称和电子邮箱</h3>
+
+                                    <label for="nikename">昵称</label>
+                                    <input type="text" class="form-control" id="nikename"
+                                           placeholder="2-15字符，中英文、数字和下划线">
+                                    <label for="realname">真实姓名</label>
+                                    <input type="text" class="form-control" id="realname"
+                                           placeholder="请输入真实姓名">
+                                    <label for="Email">电子邮箱</label>
+                                    <input type="text" class="form-control" id="Email"
+                                           placeholder="请输入电子邮箱">
+                                    <label for="phonenum">手机号码</label>
+                                    <input type="text" class="form-control" id="phonenum"
+                                           placeholder="请输入手机号码">
+                                    <label for="occupation">职业</label>
+                                    <input type="text" class="form-control" id="occupation"
+                                           placeholder="请选择职业">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"checked="checked" id="CertificateCheckbox"> 是否拥有与时尚相关的证书
+                                        </label>
+                                    </div>
+                                    <input type="text" class="form-control" id="certificate" style="display:none;"
+                                           placeholder="请选择证书">
+                                    <label for="SelfIntroduction">自我介绍</label>
+                                    <textarea id="SelfIntroduction" class="form-control" rows="6" placeholder="关于时尚敏感度"></textarea>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade in active" id="FashionTest">
+                    <h3>请为下面三位用户搭配适合她们的穿着</h3>
+                    <h5>用户1</h5>
+                   
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="width: 200px; height: auto;">
+                                <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao2.jpg" style="width:100%;" />
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <table style="">
+                                <tr><td>年龄：</td><td>21</td><td>周岁</td></tr>
+                                <tr><td>身高：</td><td>170</td><td>cm</td></tr>
+                                <tr><td>体重：</td><td>56</td><td>kg</td></tr>
+                                <tr><td>肤色：</td><td colspan=" 2 "><div style="width: 50px; height: 20px; background-color: #e1c97b; margin:0;"></div></td></tr>
+                                <tr><td>胸围：</td><td>80</td><td>cm</td></tr>
+                                <tr><td>腰围：</td><td>80</td><td>cm</td></tr>
+                                <tr><td>臀围：</td><td>80</td><td>cm</td></tr>
+                                <tr><td>腿长：</td><td>80</td><td>cm</td></tr>
+                               
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="ios">
+                            <p>
+                                iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                                TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+   

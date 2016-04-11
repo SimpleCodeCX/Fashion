@@ -1,0 +1,13 @@
+﻿body {
+}
+label{
+    font-weight:normal;
+    font-size:2em;
+}
+td
+  {
+  text-align:right;
+  vertical-align:bottom;
+  padding:10px;
+  font-size:1.5em;
+  }

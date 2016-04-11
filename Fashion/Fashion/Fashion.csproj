@@ -181,9 +181,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\expert-register.css" />
+    <Content Include="Content\need\laydate.css" />
     <Content Include="Content\Peaple_upload_tx.css" />
     <Content Include="Content\People_Login.css" />
     <Content Include="Content\share.css" />
+    <Content Include="Content\skins\default\laydate.css" />
     <Content Include="Content\test.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -252,7 +259,7 @@
     <Content Include="Images\Layout-usertouxiang.png" />
     <Content Include="Images\Layout-weibo.png" />
     <Content Include="Images\Layout-weixin.png" />
-    <Content Include="Images\People-Index-quanshenzhao.jpg" />
+    <Content Include="Images\UserImages\QuanShenZhao\quanshenzhao1.jpg" />
     <Content Include="Images\People-Index-xiugaiziliao.png" />
     <Content Include="Images\test.png" />
     <Content Include="Images\test2.png" />
@@ -278,6 +285,9 @@
     <Content Include="Images\Topic-Home-xinxi.png" />
     <Content Include="Images\Topic-Home-yiguanzhu.png" />
     <Content Include="Images\Topic-Home-zixun.png" />
+    <Content Include="Images\UserImages\QuanShenZhao\quanshenzhao2.jpg" />
+    <Content Include="Images\UserImages\QuanShenZhao\quanshenzhao3.jpg" />
+    <Content Include="Images\UserImages\QuanShenZhao\quanshenzhao4.jpg" />
     <Content Include="Images\UserImages\TouXiang\111.png" />
     <Content Include="Images\UserImages\TouXiang\daren_1.jpg" />
     <Content Include="Images\UserImages\TouXiang\daren_2.jpg" />
@@ -486,7 +496,10 @@
     <Content Include="kindeditor\themes\qq\editor.gif" />
     <Content Include="kindeditor\themes\qq\qq.css" />
     <Content Include="kindeditor\themes\simple\simple.css" />
-    <Content Include="Scripts\date_rl_js\laydate.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap\npm.js" />
+    <Content Include="Scripts\laydate.js" />
     <Content Include="Scripts\MyScripts\ImageFun.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\MyScripts\Login.js" />
@@ -503,6 +516,10 @@
     <Content Include="WebForm1.aspx" />
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
     <Content Include="kindeditor\asp.net\upload_json.ashx" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\bootstrap.min.css.map" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\Layout-iconIn.png" />
     <Content Include="Images\Layout-iconOut.png" />
@@ -564,12 +581,13 @@
     <Content Include="Views\Topic\Test2.cshtml" />
     <Content Include="Views\Topic\Consult.cshtml" />
     <Content Include="Views\Test\Index3.cshtml" />
+    <Content Include="Views\Shared\Top_nu_menu.cshtml" />
+    <Content Include="Views\People\Expert_Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Code\Ajax\" />
     <Folder Include="Images\TieZiImages\" />
-    <Folder Include="Images\UserImages\QuanShenZhao\" />
     <Folder Include="StaticHtml\TieZiHtml\" />
     <Folder Include="test\" />
   </ItemGroup>

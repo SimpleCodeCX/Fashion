@@ -29,6 +29,10 @@ namespace Fashion.Controllers
             //ViewData["aa"] = filename;
             return View();
         }
+        public ActionResult Index3()
+        {
+            return View();
+        }
 
 
     }

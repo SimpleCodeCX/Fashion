@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Fashion.Models;
 using Fashion.Code.BLL;
+using Fashion.Code.DAL;
 namespace Fashion.Controllers
 {
    
@@ -17,6 +18,15 @@ namespace Fashion.Controllers
         public ActionResult Index()
         {
             
+            return View();
+        }
+        public ActionResult Consult()
+        {
+            LoginStatusConfig();//配置登录状态
+            if (Session["userName"] == null)
+            {
+                return Content("请先登录");
+            }
             return View();
         }
         public ActionResult Test()
@@ -37,9 +47,11 @@ namespace Fashion.Controllers
         
         public ActionResult Home()
         {
-
-            LoginStatusConfig();//验证登录
-            return View();
+            Post_bll post_bll = new Post_bll();
+            List<Post_model>post_modelList=post_bll.GetPost(1);
+            LoginStatusConfig();          //配置登录状态
+            
+            return View(post_modelList);
             
         }
         /// <summary>
@@ -66,6 +78,40 @@ namespace Fashion.Controllers
             //return Content(theme);
         }
 
+        /// <summary>
+        /// 获取评论的数据
+        /// 页面：Home
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AjaxGetCommentData()
+        {           
+            int postId = Convert.ToInt32(Request["postId"]);
+            int postType = Convert.ToInt32(Request["postType"]);
+            PostComment_bll postComment_bll = new PostComment_bll();
+            List<PostComment_model> postComment_modelList = postComment_bll.GetPostComment(postId,postType);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string jsonData = serializer.Serialize(postComment_modelList);
+            return Content(jsonData);
+        }
+
+        public ActionResult AjaxTieZiComment()
+        {
+            
+            int postId = Convert.ToInt32(Request["postId"]);
+            string commentUserName = Request["commenterUserName"].ToString();
+            User_bll user_bll=new User_bll();
+            int commenterId = user_bll.GetUserId(commentUserName);
+            int beCommenterId = Convert.ToInt32(Request["beCommenterId"]);
+            string content = Request["content"].ToString();
+            return Content(content);
+            int postType = Convert.ToInt32(Request["postType"]);
+            DateTime datetime = DateTime.Now;
+            PostComment_bll postComment_bll = new PostComment_bll();
+            int InsertCount = postComment_bll.InsertComment(postId, commenterId, beCommenterId, content, datetime, postType);//插入评论数据的成功条数
+            return Content(InsertCount.ToString());
+            
+        }
+
         
         
         public ActionResult Answer()
@@ -81,6 +127,10 @@ namespace Fashion.Controllers
         public ActionResult Post()
         {
             LoginStatusConfig();//验证登录
+            if (Session["userName"] == null)
+            {
+                return Content("请先登录");
+            }
             return View();
         }
         public ActionResult fabu()
@@ -90,31 +140,83 @@ namespace Fashion.Controllers
 
         /// <summary>
         /// 提交数据
+        /// 分为3个步骤：
+        /// 1.将前端传回来的content保存为静态html
+        /// 2.将帖子标题，内容的前200个字符保存到数据库
+        /// 3.将帖子的图片的路径保存到数据库
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult postData()
         {
-
+            
+            ////先把前端传回来的content内容保存为静态页面
+            byte[] byteData = new byte[Request.InputStream.Length]; //定义一个字节数组保存前端传回来的Post数据
+            Request.InputStream.Read(byteData, 0, byteData.Length);//将流读取到byteData，InputStream读取到的是http头里的主体数据
+            //string postData = System.Text.Encoding.Default.GetString(byteData);//系统的默认编码为gb2312,不适用这种
+            string postData = System.Text.Encoding.UTF8.GetString(byteData);
+            postData = Server.UrlDecode(postData);
+            string[] datas = postData.Split('&');//对postData数据进行分割
+            string contentData = datas[1].ToString(); //data[1]为变量名为content的内容
+            contentData = contentData.Substring(contentData.IndexOf('=') + 1);//去除变量名，如content=aaa，只取出aaa
+            DateTime datetime = DateTime.Now;
+            string fileName = datetime.ToString("yyyyMMddHHmmss_ffff") + ".html";//定义文件名fileName
+            string fileNamePath = Server.MapPath("~/StaticHtml/TieZiHtml/") + fileName;//物理路径
+            while (System.IO.File.Exists(fileNamePath))//先判断文件是否存在，若存在：更换文件名
+            {
+                datetime = DateTime.Now;
+                fileName = datetime.ToString("yyyyMMddHHmmss_ffff") + ".html";
+                fileNamePath = Server.MapPath("~/StaticHtml/TieZiHtml/") + fileName;
+            }
+            System.IO.FileStream fs = new System.IO.FileStream(fileNamePath,System.IO.FileMode.Create);
+            byte[] contentBytes = System.Text.Encoding.UTF8.GetBytes(contentData);
+            //byte[] contentBytes = System.Text.Encoding.Default.GetBytes(contentData);
+            fs.Write(contentBytes,0,contentBytes.Length);
+            fs.Close();//保存静态html成功
+            ///////将帖子数据保存到数据库
             Post_bll Post = new Post_bll();
             Theme_bll themeName = new Theme_bll();
             People_bll User = new People_bll();
             string caption = Request["question"].ToString();
-            string content = Request["content"].ToString();
             string userName = Session["userName"].ToString();
             int userId = User.GainUserId(userName);
             string theme = Request["theme"].ToString();
             int themeId = themeName.CollocateThemeId(theme);
-
-
-            //判断用户提问是否成功，成功返回主页面，失败返回提问页面
-            if (Post.finshInsert(caption, content, userId, themeId) == 1)
+            string staticHtmlPath = "/StaticHtml/TieZiHtml/" + fileName;//相对路径
+            string content200 = datas[3].ToString();//data[3]的为前端传回来的发帖内容的纯文本
+            content200 = content200.Substring(content200.IndexOf('=') + 1);
+            System.Text.RegularExpressions.Regex regexImg = new System.Text.RegularExpressions.Regex(@"<img[^>]+>");
+            content200 = regexImg.Replace(content200, "");//过滤掉content200里图片
+            int len = content200.Length;
+            if (len > 200)//如果content200的长度超过200,取content200里的前两百个字符，将用于保存到数据库
             {
-                return RedirectToAction("Home");
+                len = 200;
             }
-            else
+            
+            content200 = content200.Substring(0, len);  
+            if (Post.finshInsert(caption, content200, userId, themeId, staticHtmlPath,datetime) != 1)
             {
-                return RedirectToAction("Post");
+                return Content("保存帖子信息时数据库出错");
+            }//将帖子数据保存到数据库---------成功
+            //////获取所有图片里的图片路径,并且将图片路径保存到数据库里
+            System.Text.RegularExpressions.Regex regImg2 = new System.Text.RegularExpressions.Regex(@"<img\b[^<>]*?\bsrc[\s\t\r\n]*=[\s\t\r\n]*[""']?[\s\t\r\n]*(?<imgUrl>[^\s\t\r\n""'<>]*)[^<>]*?/?[\s\t\r\n]*>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);// 定义正则表达式用来匹配 img 标签
+            System.Text.RegularExpressions.MatchCollection matches = regImg2.Matches(contentData);            
+            int i = 0;
+            string[] strUrlList = new string[matches.Count];
+            foreach (System.Text.RegularExpressions.Match match in matches)
+            {
+                strUrlList[i++] = match.Groups["imgUrl"].Value;// 取得匹配项列表
             }
+            if(strUrlList.Length>=1)
+            {
+                int postId = Post.GetPostId(caption); //根据帖子的标题查询数据库，得到该贴子的postId
+                PostPhoto_bll postPhoto_bll = new PostPhoto_bll();
+                if (postPhoto_bll.InsertPhotoUrl(postId, strUrlList,1) < 0)
+                {
+                    return Content("保存图片路径时数据库出错");
+                }
+            }
+            return Content("成功");
         }
         ///// <summary>
         ///// 验证登录是否成功；

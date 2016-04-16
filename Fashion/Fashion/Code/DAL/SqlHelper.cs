@@ -11,7 +11,7 @@ namespace Fashion.Code.DAL
     public static class SqlHelper
     {
         //数据库连接语句
-        private static string sqlConnectionString=ConfigurationManager.ConnectionStrings["conStr"].ConnectionString;
+        private static string sqlConnectionString = SqlConnectionString.sqlConnectionString;
 
         /// <summary>
         /// 返回受影响的行数

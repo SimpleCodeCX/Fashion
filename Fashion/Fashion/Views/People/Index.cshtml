@@ -71,7 +71,7 @@
 </div>
 <div class="fl_left">
     <div id="quanshenzhao">
-        <img src="~/Images/People-Index-quanshenzhao.jpg" style="width: 100%; height: 100%; border-radius: 16px;" />
+        <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao1.jpg" style="width: 100%; height: 100%; border-radius: 16px;" />
     </div>
 
     <div class="grxx_biaotou">
@@ -83,12 +83,12 @@
         </div>
     </div>
     <table id="grxx_table" class="grxx_table" cellspacing="20">
-        <tr><td>真实姓名：</td><td>林姐姐</td></tr>
-        <tr><td>出生年月：</td><td>93-10</td></tr>
-        <tr><td>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</td><td>学生</td></tr>
-        <tr><td>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</td><td>157****9883</td></tr>
-        <tr><td>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</td><td>本科</td></tr>
-        <tr><td>爱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;好：</td><td>爬山，游泳，羽毛球</td></tr>
+        <tr><td>真实姓名：</td><td>@ViewData["realName"]</td></tr>
+        <tr><td>出生年月：</td><td>@ViewData["BirthDate"]</td></tr>
+        <tr><td>职&nbsp;&nbsp;&nwbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</td><td> @ViewData["Profession"]</td></tr>
+        <tr><td>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</td><td>@ViewData["PhoneNumber"]</td></tr>
+        <tr><td>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</td><td>@ViewData["CheckEducationalBackground"]</td></tr>
+        <tr><td>爱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;好：</td><td>@ViewData["Interest"]</td></tr>
     </table>
 </div>
 
@@ -106,80 +106,3 @@
     <tr><td>胸围：</td><td>90.21cm</td><td></td><td>腿围：</td><td>53.79cm</td></tr>
 
 </table>
-<script>
-    //本函数实现鼠标移上快捷栏时，快捷栏的图标变成字
-    function kuaijie_over(x) {
-        document.getElementById(x).style.backgroundColor = "#808080";
-
-        if (x == "sousuo") {
-            document.getElementById(x).innerHTML = "点击搜索";
-            sousuok.style.display = "block";
-        }
-        else {
-            sousuo.innerHTML = "";
-            sousuo.style.backgroundColor = "#c4bfbf";
-            var img_tb = document.createElement('img');//创建图片图标
-            sousuok.style.display = "none";
-            img_tb.setAttribute('src', '../Images/Topic-Home-sousuo.png');
-
-            img_tb.className = "width_full";
-            sousuo.appendChild(img_tb);
-
-            if (x == "backtop") {
-                document.getElementById(x).innerHTML = "返回顶部";
-            }
-            else if (x == "tiwen") {
-                document.getElementById(x).innerHTML = "点击提问";
-            }
-            else if (x == "zixun") {
-                document.getElementById(x).innerHTML = "专家咨询";
-            }
-            else if (x == "xinxi") {
-                document.getElementById(x).innerHTML = "查看信息";
-            }
-        }
-    }
-    //实现当鼠标移开时，快捷栏还原
-    function kuaijie_out(x) {
-        document.getElementById(x).innerHTML = "";
-        document.getElementById(x).style.backgroundColor = "#c4bfbf";
-        var img_tb = document.createElement('img');//创建图片图标
-        sousuok.style.display = "none";
-        if (x == "tiwen") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-woyaotiwen.png');
-        }
-        else if (x == "zixun") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-zixun.png');
-        }
-        else if (x == "xinxi") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-xinxi.png');
-        }
-        else if (x == "backtop") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-backtop.png');
-        }
-        img_tb.className = "width_full";
-        document.getElementById(x).appendChild(img_tb);
-    }
-</script>
-
-<div id="sousuok" class="ssk_div">
-    <input type="text" class="ssk" />
-</div>
-
-<div class="kjl_div">
-    <div id="sousuo" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)">
-        <img src="~/Images/Topic-Home-sousuo.png" class="width_full" />
-    </div>
-    <div id="tiwen" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-woyaotiwen.png" id="tiwen1" class="width_full" />
-    </div>
-    <div id="zixun" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-zixun.png" id="zixun1" class="width_full" />
-    </div>
-    <div id="xinxi" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-xinxi.png" id="xinxi1" class="width_full" />
-    </div>
-    <div id="backtop" class="kuaijie_btn" onclick="scroll(0, 0)" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-backtop.png" id="backtop1" class="width_full" />
-    </div>
-</div>

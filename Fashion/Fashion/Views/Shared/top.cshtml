@@ -46,6 +46,62 @@
             
         //}
     </script>
+    <script>
+
+        //本函数实现鼠标移上快捷栏时，快捷栏的图标变成字
+        function kuaijie_over(x) {
+            document.getElementById(x).style.backgroundColor = "#808080";
+
+            if (x == "sousuo") {
+                document.getElementById(x).innerHTML = "点击搜索";
+                sousuok.style.display = "block";
+            }
+            else {
+                sousuo.innerHTML = "";
+                sousuo.style.backgroundColor = "#c4bfbf";
+                var img_tb = document.createElement('img');//创建图片图标
+                sousuok.style.display = "none";
+                img_tb.setAttribute('src', '/Images/Topic-Home-sousuo.png');
+
+                img_tb.className = "width_full";
+                sousuo.appendChild(img_tb);
+
+                if (x == "backtop") {
+                    document.getElementById(x).innerHTML = "返回顶部";
+                }
+                else if (x == "tiwen") {
+                    document.getElementById(x).innerHTML = "点击提问";
+                }
+                else if (x == "zixun") {
+                    document.getElementById(x).innerHTML = "专家咨询";
+                }
+                else if (x == "xinxi") {
+                    document.getElementById(x).innerHTML = "查看信息";
+                }
+            }
+        }
+        //实现当鼠标移开时，快捷栏还原
+        function kuaijie_out(x) {
+            document.getElementById(x).innerHTML = "";
+            document.getElementById(x).style.backgroundColor = "#c4bfbf";
+            var img_tb = document.createElement('img');//创建图片图标
+            sousuok.style.display = "none";
+            if (x == "tiwen") {
+                img_tb.setAttribute('src', '/Images/Topic-Home-woyaotiwen.png');
+            }
+            else if (x == "zixun") {
+                img_tb.setAttribute('src', '/Images/Topic-Home-zixun.png');
+            }
+            else if (x == "xinxi") {
+                img_tb.setAttribute('src', '/Images/Topic-Home-xinxi.png');
+            }
+            else if (x == "backtop") {
+                img_tb.setAttribute('src', '/Images/Topic-Home-backtop.png');
+            }
+            img_tb.className = "width_full";
+            document.getElementById(x).appendChild(img_tb);
+        }
+    </script>
     <style>
         #top {
             background-color: black;
@@ -67,6 +123,7 @@
         }
 
         .Left_div {
+            background-color:white;
             position: fixed;
             font-style: italic;
             margin-top: 35px;
@@ -180,6 +237,7 @@
             font-size: 1em;
             text-align: center;
             cursor: pointer;
+            z-index: 9;
         }
 
         .width_full {
@@ -365,9 +423,237 @@
         </div>
     </div>
 
+   
     <div id="Right_div" class="Right_div">
         @RenderBody()
     </div>
+    <!--////////////////////////将快捷键按钮移至共享页面，其他的子页面的快捷键按钮删除///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div id="sousuok" class="ssk_div">
+        <input type="text" class="ssk" />
+    </div>
+    <div class="kjl_div">
+        <div id="sousuo" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)">
+            <img src="~/Images/Topic-Home-sousuo.png" class="width_full" />
+        </div>
+
+        <div id="tiwen" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)" onclick="xianshi_ask_div()">
+
+            <img src="/Images/Topic-Home-woyaotiwen.png" id="tiwen1" class="width_full" />
+        </div>
+        <!--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin/////begin//////////////////////////////////////////////////////////////////////////////////////
+            加了onclick="  window.location.href = '../Topic/Consult'"
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <div id="zixun" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)" onclick="    window.location.href = '../Topic/Consult'">
+            <!--///////////////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end////////end//////////////////////////////////////////////////////-->
+            <img src="/Images/Topic-Home-zixun.png" id="zixun1" class="width_full" />
+        </div>
+        <div id="xinxi" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
+            <img src="/Images/Topic-Home-xinxi.png" id="xinxi1" class="width_full" />
+        </div>
+        <div id="backtop" class="kuaijie_btn" onclick="scroll(0, 0)" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
+            <img src="/Images/Topic-Home-backtop.png" id="backtop1" class="width_full" />
+        </div>
+    </div>
+    <!--////////////////////////将快捷键按钮移至共享页面，其他的子页面的快捷键按钮删除///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+    <script>
+
+        
+
+        function close_ask() {             //关闭提问层JS
+            //document.documentElement.className = "sScroll";
+            document.getElementById("touming_fugai_div").style.display = "none";
+            document.getElementById("ask_div").style.display = "none";
+        }
+        function xianshi_ask_div() {       //点击显示提问层js
+            //document.documentElement.className = "hScroll";
+            document.getElementById("touming_fugai_div").style.display = "block";
+            document.getElementById("ask_div").style.display = "block";
+            var Y = $(document).scrollTop() + "px";  //获取滚动条到顶部的垂直高度
+            document.getElementById("ask_div").style.marginTop = Y;
+        }
+    </script>
+
+    <div id="touming_fugai_div" class="touming_fugai_div"></div>
+    <div id="ask_div" class="ask_div">
+        <div class="ask_div_top_bg">
+            &nbsp; &nbsp; 提问
+            <img src="/Images/Layout-guanbi.png" style="float:right;margin:5px 10px 0 0;cursor:pointer;" onclick="close_ask()" />
+        </div>
+        <div class="ask_shenming">
+            <p>您提的每一个问题，时尚达人们将会为您解答！</p>
+            <p>时尚达人希望能帮您找到适合自己的搭配，走在时尚！</p>
+            <p>好的问题更容易得到好的答案。<a href="">如何提一个好问题？</a></p>
+            <h6>提问应遵循真实、客观、简洁、明确、规范的原则</h6>
+            <p>1、提问应尽可能简洁明了，避免「请问」「有谁知道」「谢谢！」等与问题本身无关的附加语。</p>
+            <p>2、应避免使用「为神马」「童鞋」「肿么办」等网络用语。</p>
+            <p>3、基于个人判断或传言的问题，在提问时应在补充说明里详细说明原由。</p>
+            <p>4、避免太宽泛问题，如调查性的问题容易变成每个人都可以发表观点，但对其他人没有价值。</p>
+            <h6>时尚达人禁止以下提问</h6>
+            <p>1、和已有问题完全重复的问题，为避免重复，提问前可以先进行搜索</p>
+            <p>2、与时尚无关的问题。</p>
+            <h6>提问前请先搜索</h6>
+            <input type="text" id="question_text" style=" width: 98%; height: 30px;border-radius: 2px; border: 1px solid #a2b6b0;padding:0 1% 0 1%;" oninput="question_sousuo()" placeholder="请输入您的问题" />
+            <div id="xg_question"></div>
+        </div>
+    </div>
+    <script>
+
+        function question_sousuo() {
+            var val = document.getElementById("question_text").value;
+            if (val.length <= 0) {
+                document.getElementById("xg_question").innerHTML = "";
+                document.getElementById("xg_question").className = "";
+
+            }
+            else {
+                document.getElementById("xg_question").className = "xg_question";
+                if (val.indexOf("l") >= 0) {
+                    document.getElementById("xg_question").innerHTML = "";
+                    var h6_div = document.createElement('h6');//创建h6
+                    h6_div.innerHTML = "你想问的问题是不是:";
+                    document.getElementById("xg_question").appendChild(h6_div);
+                    var p1 = document.createElement('p');//创建h6
+                    p1.innerHTML = "<font>女生有LO（LOLITA）装，男士有相对的洋装吗？</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p1);
+                    var p2 = document.createElement('p');//创建h6
+                    p2.innerHTML = "<font>应该如何选购 JK 制服和 LO 装？</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p2);
+                    var p3 = document.createElement('p');//创建h6
+                    p3.innerHTML = "<font>觉得lo装超美，结婚的时候也想穿lo，求各位推荐适合的款或牌子！？国牌日牌都可！</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p3);
+                    var p4 = document.createElement('p');//创建h6
+                    p4.innerHTML = "<font>Lob 发型对脸型有什么要求？想剪 Lob 发型要注意哪些问题？</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p4);
+                    var div_new = document.createElement('div');//创建div
+                    div_new.innerHTML = "不是，我要提一个新问题>>";
+                    div_new.className = "div_new"
+                    div_new.onclick = function () { window.location.href = '../../Topic/Post' };
+                    document.getElementById("xg_question").appendChild(div_new);
+                }
+                else if (val.indexOf("发") >= 0) {
+                    document.getElementById("xg_question").innerHTML = "";
+                    var h6_div = document.createElement('h6');//创建h6
+                    h6_div.innerHTML = "你想问的问题是不是:";
+                    document.getElementById("xg_question").appendChild(h6_div);
+                    var p1 = document.createElement('p');//创建h6
+                    p1.innerHTML = "<font>圆脸女生适合什么发型？</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p1);
+                    var p2 = document.createElement('p');//创建h6
+                    p2.innerHTML = "<font>男生发型求推荐</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p2);
+                    var p3 = document.createElement('p');//创建h6
+                    p3.innerHTML = "<font>脸大适合什么发型？</font>20个回答";
+                    document.getElementById("xg_question").appendChild(p3);
+                    var div_new = document.createElement('div');//创建div
+                    div_new.innerHTML = "不是，我要提一个新问题>>";
+                    div_new.className = "div_new";
+                    div_new.onclick = function () { window.location.href = '../../Topic/Post' };
+                    document.getElementById("xg_question").appendChild(div_new);
+                }
+                else {
+                    document.getElementById("xg_question").innerHTML = "";
+                    var div_new = document.createElement('div');//创建div
+                    div_new.innerHTML = "没有找到相关问题，马上提问>>";
+                    div_new.className = "div_new";
+                    div_new.id = "div_new_id";
+                    div_new.onclick = function () { window.location.href = '../../Topic/Post' };
+                    document.getElementById("xg_question").appendChild(div_new);
+                }
+            }
+        }
+
+    </script>
+
+
+    <style>
+        .div_new {
+            text-align: center;
+            border-top: 1px solid #a2b6b0;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        #xg_question h6 {
+            margin-left: 5px;
+            margin-top: 0px;
+            padding-top: 5px;
+        }
+
+        #xg_question p {
+            margin-left: 5px;
+            margin-right: 5px;
+            color: gray;
+        }
+
+        #xg_question font {
+            margin-right: 5px;
+            color: black;
+        }
+
+        #xg_question p font:hover, .div_new:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #xg_question p:hover {
+            text-decoration: none;
+            cursor: default;
+        }
+
+        .xg_question {
+            border-left: 1px solid #a2b6b0;
+            border-bottom: 1px solid #a2b6b0;
+            border-right: 1px solid #a2b6b0;
+            width: 100%;
+        }
+
+        .ask_shenming h6 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ask_shenming {
+            padding: 0 20px 0 20px;
+        }
+
+            .ask_shenming h6 {
+            }
+
+        .ask_div_top_bg {
+            background-color: black;
+            line-height: 30px;
+            height: 30px;
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        .ask_div {
+            background-color: white;
+            border-radius: 10px;
+            height: auto;
+            width: 40%;
+            margin-left: 28%;
+            padding-bottom: 20px;
+            top: 100px;
+            display: none;
+            position: absolute;
+        }
+
+        .touming_fugai_div {
+            height: 100%;
+            display: none;
+            width: 100%;
+            background-color: black;
+            filter: Alpha(Opacity=50); /*IE浏览器*/
+            -moz-opacity: 0.5; /*火狐浏览器*/
+            opacity: 0.5; /*其他浏览器*/
+            top: 0;
+            position: fixed;
+        }
+    </style>
 </body>
 
 </html>

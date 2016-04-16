@@ -124,7 +124,7 @@ a{
     height:120px;width:100%;cursor:pointer;margin-top:5px;
 }
 .data_detail_data{
-    height:auto;width:100%;margin-top:5px;display:none;
+    height:auto;width:100%;margin-top:5px;display:none;float:left;margin-bottom:14px;
 }
 .data_img{
     height:120px;width:30%;float:left;margin-right:2%;

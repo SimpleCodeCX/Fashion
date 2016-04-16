@@ -2,10 +2,31 @@
     ViewBag.Title = "Test";
     Layout = null;
 }
-
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn1").click(function () {
+            $.ajax({
+                url: "AjaxGetCommentData",
+                data:{postId:"173",postType:"1"},
+                success: function (data) {
+                    var jsonData = JSON.parse(data);
+                    alert(jsonData[0].postCommentContent);
+                }
+            });
+        });
+    });
+</script>
 <h2>Test</h2>
-<form action="~/Topic/Test2" method="post" enctype="multipart/form-data" >
-    <input type="file" name="file1" multiple="multiple" />
-    <input type="text"  name="tt"/>
-    <input type="submit"  value="提交"/>
-</form>
+
+
+<input type="button"  id="btn1" value="请求json"/>
+@{
+    Fashion.Models.PostComment_model p = new Fashion.Models.PostComment_model();
+}
+
+
+<div style="color:red;">
+    @p.Commenter.age
+</div>
+

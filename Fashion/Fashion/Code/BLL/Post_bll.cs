@@ -1,4 +1,5 @@
 ﻿using Fashion.Code.DAL;
+using Fashion.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,24 @@ namespace Fashion.Code.BLL
                 return 1;
             }
         }
+
+        /// <summary>
+        /// 通过标题查询数据库获得postId
+        /// 结果返回1代表数据库出错
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <returns></returns>
+        public int GetPostId(string caption)
+        {
+            Post_dal post_dal = new Post_dal();
+            object postId = post_dal.GetPostId(caption);
+            if (postId == null || postId == System.DBNull.Value)
+            {
+                return 0;
+            }
+            return (int)postId;
+        }
+
         /// <summary>
         /// 插入问题，问题说明，提问人
         /// 成功返回1
@@ -42,10 +61,10 @@ namespace Fashion.Code.BLL
         /// <param name="content"></param>
         /// <param name="postsender"></param>
         /// <returns></returns>
-        public int finshInsert(string caption, string content, int postsenderId, int themeId)
+        public int finshInsert(string caption, string content, int postsenderId, int themeId, string staticHtmlPath, DateTime datetime)
         {
             Post_dal insert = new Post_dal();
-            if (insert.insertCaption(caption, content, postsenderId, themeId) == 1)
+            if (insert.insertCaption(caption, content, postsenderId, themeId,staticHtmlPath, datetime) == 1)
             {
                 return 1;
             }
@@ -55,5 +74,18 @@ namespace Fashion.Code.BLL
             }
 
         }
+
+        /// <summary>
+        /// 获取帖子的10条数据
+        /// </summary>
+        /// <param name="page">页数</param>
+        /// <param name="min">第一条数据id</param>
+        /// <param name="max">最后一条数据id</param>
+        public List<Post_model> GetPost(int page,int min=1, int max=10)
+        {
+            Post_dal post_dal = new Post_dal();
+            return post_dal.GetPost(page,min,max);
+        }
+
     }
 }

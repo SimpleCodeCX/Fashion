@@ -1,0 +1,423 @@
+﻿@{
+    ViewBag.Title = "Expert_Register";
+    Layout = "~/Views/Shared/Top_nu_menu.cshtml";
+}
+<link href="~/Content/expert-register.css" rel="stylesheet" />
+<script>
+    //********************添加图片js代码*****************************
+    var imgNum = 0;
+    function addImg() {
+        imgNum++;
+        var img_div = document.createElement('div');//img_div:放图片的div
+        img_div.id = "clothesImg_" + imgNum;
+        img_div.className = "clothesImgBorder";
+        img_div.innerHTML = "点击上传图片";
+        img_div.setAttribute('onclick', 'document.getElementById("file_' + imgNum + '").click()');
+        document.getElementById("clothesImg").appendChild(img_div);
+        var file = document.createElement('input');//创建一个input,类型是file
+        file.type = "file";
+        file.id = "file_" + imgNum;
+        file.style.display = "none";
+        file.setAttribute('onchange', 'previewImage(this,this.id)');
+        document.getElementById("clothesImg").appendChild(file);
+        var label = document.createElement('label');//创建一个label
+        label.innerHTML = "链接：";
+        document.getElementById("clothesImg").appendChild(label);
+        var text = document.createElement('input');//创建一个input,类型是text
+        text.type = "text";
+        text.id = "link_" + imgNum;
+        document.getElementById("clothesImg").appendChild(text);
+        var hr = document.createElement('hr');//创建一个hr
+        document.getElementById("clothesImg").appendChild(hr);
+
+
+    }
+</script>
+<script type="text/javascript">
+    //******************上传全身照的js代码********************
+    //图片上传预览    IE是用了滤镜。
+    function previewImage(file, id) {
+        var imgId = "clothesImg_" + id.substring(5);
+        var imgheadId = "imghead_" + id.substring(5);
+        var MAXWIDTH = 250;
+        var MAXHEIGHT = 350;
+        var div = document.getElementById(imgId);
+        if (file.files && file.files[0]) {
+            div.innerHTML = '<img id="' + imgheadId + '" class="clothesImg" />';
+            var img = document.getElementById(imgheadId);
+            img.style.borderRadius = "20px";
+            img.onload = function () {
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, 250, 350);
+                img.width = rect.width;
+                img.height = rect.height;
+                //                 img.style.marginLeft = rect.left+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function (evt) { img.src = evt.target.result; }
+            reader.readAsDataURL(file.files[0]);
+        }
+        else //兼容IE
+        {
+            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            div.innerHTML = '<img id="' + imgheadId + '"/>';
+            var img = document.getElementById(imgheadId);
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
+            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
+        }
+    }
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = { top: 0, left: 0, width: width, height: height };
+        if (width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if (rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+</script>
+<script>
+    //*******************确定是否提交申请************************
+    function confirmAll() {
+        var ifConfirm = confirm("您确定提交申请了吗？一旦提交将不可再更改！");
+        if (ifConfirm) {
+            TurnNext("nextBtn3");
+            document.getElementById("li_1").style.pointerEvents = "none";
+            document.getElementById("li_2").style.pointerEvents = "none";
+            document.getElementById("li_3").style.pointerEvents = "none";
+        }
+    }
+    //*****************测试模块2是否填写完全******************
+    function testAll() {
+        var nickName = document.getElementById("nikename").value;
+        var realName = document.getElementById("realname").value;
+        var email = document.getElementById("Email").value;
+        var phonenum = document.getElementById("phonenum").value;
+        var occupation = document.getElementById("occupation").value;
+        var Introduction = document.getElementById("SelfIntroduction").value;
+        if (nickName.length > 0 && realName.length > 0 && email.length > 0 && phonenum.length > 0 && occupation.length > 0 && Introduction.length <= 0) {
+            var ifComfirm = confirm("你确定不写自我介绍吗？好的自我介绍能增大申请通过的几率哦~");
+            if (ifComfirm) {
+                document.getElementById("li_3").style.pointerEvents = "all";
+                TurnNext("nextBtn2").click;
+            }
+        }
+        else {
+            alert("请完善信息！");
+        }
+    }
+    //**********职业选择下拉列表的jQuery*********
+    $(function () {
+        $("#Job_Choose input").click(function () {
+            var ul = $("#Job_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#Job_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#Job_Choose input").val(txt);
+            var value = $(this).attr("rel");
+            $("#Job_Choose ul").hide();
+        });
+
+    });
+    //******************判断手机号码是否正确**********************
+    function testPhoneNum(x) {
+        var val = document.getElementById(x).value;
+        var reg = /^0?1[3|4|5|8][0-9]\d{8}$/
+
+        if (!reg.test(val)) {
+            alert("手机号码不正确！");
+        }
+    }
+    //******************判断邮箱是否满足条件**********************
+    function testEmail(x) {
+        var val = document.getElementById(x).value;
+        var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+
+        if (!reg.test(val)) {
+            alert("邮箱格式不正确！");
+        }
+    }
+    //******************判断真实姓名是否满足条件**********************
+    function testRealName(x) {
+        var val = document.getElementById(x).value;
+        var reg = /^[a-zA-Z\u4e00-\u9fa5 ]{2,20}$/;
+        if (!reg.test(val)) {
+            alert("请输入真实姓名！");
+        }
+    }
+    //******************判断昵称是否满足条件**********************
+    function testNickName(x) {
+        var val = document.getElementById(x).value;
+        var reg = /^[a-zA-Z0-9\u4e00-\u9fa5\_]{2,15}$/;
+        if (!reg.test(val)) {
+            alert("昵称只能为“2-15字符，中英文、数字和下划线”！");
+        }
+    }
+    //******************点击添加图片上传框**********************
+    function addFile() {
+        var input = document.createElement('input');
+        input.type = "file";
+        input.className = "form-control";
+        input.style.marginBottom = "15px";
+        document.getElementById("certificate").appendChild(input);
+    }
+    //*************判断是否有证书？若有，则显示添加图片模块**************
+    function ifCheckCertificate(x) {
+        var ifCheck = document.getElementById(x).checked;
+        if (ifCheck == true) {
+            document.getElementById("certificate").style.display = "block";
+        }
+        else {
+            document.getElementById("certificate").style.display = "none";
+
+        }
+    }
+    //******************点击跳转到上一步****************************
+    function TurnLast(x) {
+        var numId = x.substring(7);
+        var li_now = "li_" + numId;
+        var divNow = "ExpertRegisterDiv_" + numId;
+        numId--;
+        var li_Last = "li_" + numId;
+        var divLast = "ExpertRegisterDiv_" + numId;
+        document.getElementById(divNow).className = "tab-pane fade";
+        document.getElementById(divLast).className = "tab-pane fade in active";
+        document.getElementById(li_now).className = "";
+        document.getElementById(li_Last).className = "active";
+        window.scrollTo(0, 0);
+    }
+    //***************测试是否同意条款协议,同意则下一步按钮,其他导航栏按钮激活*************************
+    function testAgree() {
+        var ifChecked = document.getElementById("AgreeCheckbox").checked;
+        if (ifChecked == true) {
+            document.getElementById("nextBtn1").className = "btn btn-primary";
+            document.getElementById('nextBtn1').setAttribute("onclick", "TurnNext(this.id)");
+            document.getElementById("li_2").style.pointerEvents = "all";
+        }
+        else {
+            document.getElementById("nextBtn1").className = "btn btn-primary disabled";
+            document.getElementById("nextBtn1").onclick = "";
+            document.getElementById("li_2").style.pointerEvents = "none";
+            document.getElementById("li_3").style.pointerEvents = "none";
+            document.getElementById("li_4").style.pointerEvents = "none";
+        }
+    }
+    //*********************点击跳转到下一步*******************************
+    function TurnNext(x) {
+        var numId = x.substring(7);
+        var li_now = "li_" + numId;
+        var divNow = "ExpertRegisterDiv_" + numId;
+        numId++;
+        var li_next = "li_" + numId;
+        var divNext = "ExpertRegisterDiv_" + numId;
+        document.getElementById(divNow).className = "tab-pane fade";
+        document.getElementById(divNext).className = "tab-pane fade in active";
+        document.getElementById(li_now).className = "";
+        document.getElementById(li_next).className = "active";
+        window.scrollTo(0, 0);
+    }
+
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-sm-7" style="text-align:center;">
+            <h3>专家注册</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div id="zhuce_body_div" class="col-sm-offset-2 col-md-7">
+            <ul id="ExpertRegisterNav" class="nav nav-tabs">
+                <li id="li_1" class="active"><a href="#ExpertRegisterDiv_1" data-toggle="tab">阅读协议</a></li>
+                <li id="li_2" style="pointer-events:none;"><a href="#ExpertRegisterDiv_2" data-toggle="tab">基本资料</a></li>
+                <li id="li_3" style="pointer-events:none;"><a href="#ExpertRegisterDiv_3" data-toggle="tab">时尚考核1</a></li>
+                <li id="li_4" style="pointer-events:none;"><a href="#ExpertRegisterDiv_4" data-toggle="tab">等待审核</a></li>
+            </ul>
+            <div id="ExpertRegisterNavContent" class="tab-content" style="padding-bottom:100px;">
+                <div id="ExpertRegisterDiv_1" class="tab-pane fade in active">
+                    <div class="row">
+                        <div id="agreementData" class="col-sm-offset-1 col-md-10" style="margin-top: 30px; height: 500px; overflow-y: scroll; color: gray;">
+                            <div style="text-align: center;margin-bottom:30px;">
+                                <h3>申请时尚专家条款</h3>
+                            </div>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                            <p>
+                                1、申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请时尚家条款申请时尚专家条款申请时尚专家条款申请时尚专家条款申请
+                            </p>
+                        </div><!--<div id="agreementData" >-!end-->
+                        <div class="col-sm-offset-1 col-md-10 checkbox" style="color:gray;font-size:smaller;margin-top:15px;">
+                            <label>
+                                <input type="checkbox" id="AgreeCheckbox" onclick="testAgree()"> 同意以上条款
+                            </label>
+                        </div>
+                    </div><!--<div class="row">-!end-->
+                    <div class="hr-css"></div><!--分割线-->
+                    <div style="text-align:center;">
+                        <button id="nextBtn1" type="button" class="btn btn-primary disabled">下一步</button>
+                    </div>
+                </div><!--<div id="ExpertRegisterDiv_1">-!end-->
+                <div id="ExpertRegisterDiv_2" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-md-offset-2 col-sm-8">
+                            <form class="form" role="form">
+                                <input name="utf8" type="hidden" value="✓">
+                                <input type="hidden" name="_method" value="patch">
+                                <div id="data_form_div" class="form-group">
+                                    <h3>昵称和电子邮箱</h3>
+                                    <label for="nikename">昵称</label>
+                                    <input type="text" class="form-control" id="nikename"
+                                           placeholder="2-15字符，中英文、数字和下划线" onblur="testNickName(this.id)">
+                                    <label for="realname">真实姓名</label>
+                                    <input type="text" class="form-control" id="realname"
+                                           placeholder="请输入真实姓名" onblur="testRealName(this.id)">
+                                    <label for="Email">电子邮箱</label>
+                                    <input type="text" class="form-control" id="Email"
+                                           placeholder="请输入电子邮箱" onblur="testEmail(this.id)">
+                                    <label for="phonenum">手机号码</label>
+                                    <input type="text" class="form-control" id="phonenum"
+                                           placeholder="请输入手机号码" onblur="testPhoneNum(this.id)">
+                                    <label for="occupation">职业</label>
+                                    <div id="Job_Choose">
+                                        <input type="text" class="form-control" id="occupation"
+                                               placeholder="请选择职业"/>
+                                        <ul style="display:none;">
+                                            <li>教师</li>
+                                            <li>学生</li>
+                                            <li>白领</li>
+                                            <li>家庭主妇</li>
+                                            <li>其他</li>
+                                        </ul>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="CertificateCheckbox" onclick="ifCheckCertificate(this.id)"> 是否拥有与时尚相关的证书
+                                        </label>
+                                    </div>
+                                    <div id="certificate" style="display: none;">
+                                        <label>请上传证书照片</label>
+                                        <div>
+                                            <input type="file" class="form-control" style="width: 80%; float: left;margin-bottom:15px;">
+                                            <input type="button" class="btn btn-primary" value="add" style="width: 15%; float: left; margin-left: 5%; margin-bottom: 15px;" onclick="addFile();" />
+                                        </div>
+                                    </div>
+                                    <label for="SelfIntroduction">自我介绍</label>
+                                    <textarea id="SelfIntroduction" class="form-control" rows="6" placeholder="关于时尚敏感度，好的自我介绍能让通过几率更高哦~"></textarea>
+                                </div><!--<div id="data_form_div">结束-->
+                            </form>
+                        </div><!--<div class="col-md-offset-2 col-sm-8">结束-->
+                    </div><!--<div class="row">结束-->
+                    <div class="hr-css"></div><!--分割线-->
+                    <div style="text-align:center;margin-top:30px;">
+                        <button id="LastBnt2" type="button" class="btn btn-primary" style="margin-right:20%;" onclick="TurnLast(this.id)">上一步</button>
+                        <button id="nextBtn2" type="button" class="btn btn-primary" onclick="testAll()">下一步</button>
+                    </div>
+                </div><!--<div id="ExpertRegisterDiv_2">结束-->
+                <div id="ExpertRegisterDiv_3" class="tab-pane fade">
+                    <div id="testDivRow" class="tab-pane fade in active row" style="margin-top:20px;">
+                        <div id="testDiv" class="col-sm-offset-1 col-md-10">
+                            <div class="col-md-12">
+                                <h4>请为下面用户搭配适合他们的穿着</h4>
+                                <h4>THE&nbsp;&nbsp;FIRST&nbsp;&nbsp;USER</h4>
+                            </div>
+
+                            <div id="userData">
+                                <div id="quanshengzhao" class="col-md-4">
+                                    <div style="width: 200px; height: auto;">
+                                        <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao2.jpg" style="width:100%;" />
+                                    </div>
+                                </div><!--<div id="quanshengzhao">结束-->
+                                <div id="bodydata" class="col-md-offset-2 col-md-6">
+                                    <table>
+                                        <tr><td>年龄：</td><td>21</td><td>周岁</td></tr>
+                                        <tr><td>身高：</td><td>170</td><td>cm</td></tr>
+                                        <tr><td>体重：</td><td>56</td><td>kg</td></tr>
+                                        <tr><td>肤色：</td><td colspan=" 2 "><div style="width: 50px; height: 20px; background-color: #e1c97b; margin:0;"></div></td></tr>
+                                        <tr><td>胸围：</td><td>80</td><td>cm</td></tr>
+                                        <tr><td>腰围：</td><td>80</td><td>cm</td></tr>
+                                        <tr><td>臀围：</td><td>80</td><td>cm</td></tr>
+                                        <tr><td>腿长：</td><td>80</td><td>cm</td></tr>
+                                    </table>
+                                </div><!--<div id="bodydata">结束-->
+                            </div><!--<div id="userData">-!end-->
+
+                            <div class="col-md-12">
+                                <h4>需要一套衣服参加婚礼，求搭配！</h4>
+                                <div style="border-radius:5px;background-color:#d7edf3;padding:5px 10px;width:80px;margin-bottom:10px;">场合：婚礼</div>
+                                <div style="padding:10px;background-color:#f6eecf;border-radius:5px;">
+                                    <p>过几天兄弟结婚，想要一套出彩的衣服可以参加婚礼，要求是能显气质，还有不要显得我太瘦！</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h4>YOUR&nbsp;&nbsp; DESIGN</h4>
+                                <div id="addImgTop" class="designDivTop">请添加图片模块</div>
+                                <div id="addImgDiv" class="designDivBody" style="text-align:center;">
+                                    <div id="clothesImg"></div>
+                                    <div onclick="addImg()" style="font-size:1.5em;font-weight:bold;cursor:pointer;">
+                                        <img src="~/Images/People-Expert_Register-addImg.png" />
+                                        点击添加图片
+                                    </div>
+                                </div><!--<div id="addImgDiv">-end!-->
+                                <br />
+                                <div id="describeTop" class="designDivTop">描述模块</div>
+                                <div id="describeDiv" class="designDivBody">
+                                    <textarea style="width:90%;height:200px;margin:10px 5%;border-radius:10px;background-color:#faf6b3;padding:5px;"></textarea>
+                                </div><!--<div id="describeDiv">-end!-->
+                            </div>
+                        </div><!--<div id="testDiv">-!end-->
+                    </div><!--<div id="testDivRow">-!end-->
+                    <div class="hr-css"></div><!--分割线-->
+                    <div style="text-align:center;margin-top:30px;">
+                        <button id="LastBnt3" type="button" class="btn btn-primary" style="margin-right:20%;" onclick="TurnLast(this.id)">上一步</button>
+                        <button id="nextBtn3" type="button" class="btn btn-primary" onclick="confirmAll()">下一步</button>
+                    </div>
+                </div><!--<div id="ExpertRegisterDiv_3">结束-->
+                <div id="ExpertRegisterDiv_4" class="tab-pane fade row" style="padding-bottom:100px;">
+                    <div class="col-md-10 col-md-offset-1" style="text-align:center">
+                        <img src="~/Images/People-Expert_Register-WaitForAudit.png" style="margin-top:70px;" />
+                        <h2>等待审核</h2>
+                        <p>你的申请已提交，正在审核中。。。</p>
+                        <p>审核周期一般为1~2天，请注意留意信息~</p>
+                        <a href="../Topic/Home">点击跳转回到首页</a>
+                    </div>
+                </div><!--<div id="ExpertRegisterDiv_4">结束-->
+
+                        </div><!--<div id="ExpertRegisterNavContent">结束-->
+                    </div><!--<div id="zhuce_body_div">结束-->
+                </div><!--<div class="row">结束-->
+
+</div><!--<div class="container">结束-->

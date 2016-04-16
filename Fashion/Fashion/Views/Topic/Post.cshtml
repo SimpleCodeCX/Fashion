@@ -2,31 +2,50 @@
     ViewBag.Title = "Post";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<head>
-
-    <link href="~/Content/themes/default.css" rel="stylesheet" />  <!--编辑器引用-->
-    <script charset="utf-8" src="~/Scripts/kindeditor-min.js"></script>
-    <script charset="utf-8" src="~/Scripts/zh_CN.js"></script>
-    <script src="~/Scripts/media.js"></script>
-    <script src="~/Scripts/link.js"></script>
-    <script src="~/Scripts/image.js"></script>
-    <script src="~/Scripts/flash.js"></script>
-    <script src="~/Scripts/emoticons.js"></script>
+<link href="~/kindeditor/themes/default/default.css" rel="stylesheet" />
+<script src="~/kindeditor/kindeditor-all-min.js"></script>
+<script src="~/kindeditor/lang/zh-CN.js"></script>
     <script src="~/Scripts/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var editor;
+        KindEditor.ready(function (K) {
+                editor = K.create('#theEditor', {
+                themeType: 'default',
+                width: 700,
+                height: 200,
+                langType: 'zh-CN',
+                uploadJson: '../../kindeditor/asp.net/upload_json.ashx',
+                //items: [
+                //    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                //    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                //    'insertunorderedlist', '|', 'emoticons', 'image', 'flash', 'media', 'link']
+                });
+        });
+        //submitBtn  postDataForm postDataForm
+        $("#submitBtn").click(function () {
+            editor.sync();
+            var theContent = editor.text();
+            $("#content200").val(theContent);
+            $("#postDataForm").submit();
+        });
+        
+    });
+</script>
+
     <style>
-        body {
-            background-image: url(../Images/Topic-Post-congruent_pentagon.png);
-        }
+     
 
         #left {
             float: left;
             padding-top: 30px;
-            width: 57%;
+            width: 55%;
             height: 450px;
             /*width: 570px;*/
             border-radius: 8px;
+            
             background-color: rgba(255, 255, 255, 0.8);
+            
         }
 
         #title {
@@ -62,10 +81,7 @@
             padding-left: 10px;
         }
 
-        .ke-container.ke-container-default {
-            width: 485px !important;
-            //编译器宽度;
-        }
+       
 
         .content {
             height: 70px;
@@ -109,7 +125,7 @@
             font-weight: bold;
         }
 
-        #fenge {
+        /*#fenge {
             padding: 0px 10px 0px 10px;
             float: left;
         }
@@ -118,12 +134,11 @@
             background-color: #5B5B5B;
             width: 2px;
             height: 475px;
-        }
+        }*/
 
         .Answer {
             display: none;
             width: 350px;
-            // width:90%;
             height: 450px;
             float: left;
             padding-top: 30px;
@@ -194,34 +209,17 @@
             else
                 alert("已经取消了提交操作");
         }
-
-        var editor;                               //编辑器
-        KindEditor.ready(function (K) {
-            editor = K.create('textarea[name="content"]', {
-                resizeType: 1,
-                allowPreviewEmoticons: false,
-                allowImageUpload: false,
-                items: [
-                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                    'insertunorderedlist', '|', 'emoticons', 'image', 'flash', 'media', 'link']
-            });
-        });
-
-
     </script>
 
 
-</head>
-<body>
 
-    <div id="left">
+    <div id="left" style="margin-left:300px;">
         <div id="title">
             <div id="title_word">
                 我想咨询
             </div>
         </div>
-        <form action="postData">
+        <form action="postData" method="post" id="postDataForm">
             <div id="form">
                 <div id="form_one">
                     <input type="text" placeholder="写下你的问题" id="user_search" name="question" class="question" onchange="answer(this.id)" oninput="answer(this.id)" />
@@ -230,7 +228,7 @@
                     <div style=" display:inline-block;"><p>问题说明（可选）：</p></div>
                 </div>
                 <div>
-                    <textarea name="content" style="width:480px;height:100px;" id="content" placeholder="问题背景、条件等详细信息"></textarea>
+                    <textarea id="theEditor" name="content" placeholder="问题背景、条件等详细信息"></textarea>
                 </div>
 
                 <div>
@@ -288,14 +286,17 @@
                 <div id="tijiao">
                     <input id="qingchu" class="submit" type="reset" value="清除" style="border: 1px solid #7dcaf6; background-color: #7dcaf6; " />
 
-                    <input type="submit" id="submit" value="提交" style="border: 1px solid #0094ff;
+                    <input type="button" id="submitBtn" value="提交" style="border: 1px solid #0094ff;
             background-color: #0094ff;" class="submit" />
 
                 </div>
             </div>
+            <div style="height:300px;">
+                <input type="text" id="content200" name="content200"  style="display:none;"/>
+            </div>
         </form>
     </div>
-    <div style=" float:left ;">
+    @*<div style=" float:left ;">
         <div id="fenge">
             <div id="fengexian"></div>
         </div>
@@ -340,5 +341,4 @@
             <p class="question">时尚达人将尽快为您解答。</p>
         </div>
 
-    </div>
-</body>
+    </div>*@

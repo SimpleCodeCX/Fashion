@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Fashion.Models;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -21,6 +23,20 @@ namespace Fashion.Code.DAL
             };
             return SqlHelper.ExecuteScalar(sqlStr, parameters);
         }
+        /// <summary>
+        /// 通过标题查询数据库获得postId
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <returns></returns>
+        public object GetPostId(string caption)
+        {
+            string sqlStr = "select Post_Id from tb_Post where Post_Caption=@caption";
+            SqlParameter[] parameters = new SqlParameter[]{
+                new SqlParameter("@caption",caption)
+            };
+            return SqlHelper.ExecuteScalar(sqlStr, parameters);
+            
+        }
 
         /// <summary>
         /// 插入数据 标题   内容  提问题的人的编号    主题Id  
@@ -32,18 +48,73 @@ namespace Fashion.Code.DAL
         /// <param name="postsender"></param>
         /// <param name="themeId"></param>
         /// <returns></returns>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-        public int insertCaption(string caption, string content, int postsenderId, int themeId)
+        public int insertCaption(string caption, string content, int postsenderId, int themeId, string staticHtmlPath, DateTime datetime)
         {
 
-            string sqlStr = "insert into [tb_Post] ( Post_Caption,Post_Content,Post_SenderId,Post_ThemeId) values (@caption,@content,@postsenderId,@themeId)";
+            string sqlStr = "insert into [tb_Post] ( Post_Caption,Post_Content,Post_SenderId,Post_ThemeId,Post_HtmlUrl,Post_Date) values (@caption,@content,@postsenderId,@themeId,@staticHtmlPath,@datetime)";
             SqlParameter[] parameters = new SqlParameter[] { 
                 new SqlParameter("@caption",caption),
                 new SqlParameter("@content",content),
                 new SqlParameter("@postsenderId",postsenderId),
-                new SqlParameter("@themeId",themeId)
+                new SqlParameter("@themeId",themeId),
+                new SqlParameter("@staticHtmlPath",staticHtmlPath),
+                new SqlParameter("@datetime",datetime)
             };
             return SqlHelper.ExecuteNonquery(sqlStr, parameters);
         }
+
+        /// <summary>
+        /// 获取帖子的10条数据
+        /// </summary>
+        /// <returns></returns>        
+      /// <param name="page">页数</param>
+      /// <param name="min">第一条数据id</param>
+      /// <param name="max">最后一条数据id</param>
+      /// <returns></returns>
+        public List<Post_model> GetPost(int page,int min=1, int max=10)
+        {
+            string sqlStr = @"select * from(
+                                                          select ROW_NUMBER()over(order by id) orderNumber,* from PostView
+                                                               ) as postTable 
+                                                      where postTable.orderNumber between @min and @max";
+            SqlParameter[] parameters = new SqlParameter[] { 
+                new SqlParameter("@min",min*page),
+                new SqlParameter("@max",max*page)
+            };
+            DataTable dataTable = SqlHelper.ExecuteDataTable(sqlStr, parameters);
+            List<Post_model> post_modelList = new List<Post_model>();
+            foreach(DataRow row in dataTable.Rows)
+            {
+                post_modelList.Add(ToModel(row));
+            }
+            return post_modelList;
+        }
+
+        /// <summary>
+        /// 将一条数据转化为Post_model数据
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public Post_model ToModel(DataRow row)
+        {
+            Post_model post_model = new Post_model();
+            post_model.User.userId = (int)row["userId"];
+            post_model.User.userName = row["userName"].ToString();
+            post_model.User.signature = (row["signature"] != DBNull.Value ? row["signature"].ToString() : null);
+            post_model.User.touXiangUrl = row["touXiangUrl"].ToString();
+            post_model.postId = (int)row["id"];
+            post_model.postCaption = row["caption"].ToString();
+            post_model.postContent = row["content"].ToString();
+            post_model.postDate = (DateTime)row["datetime"];
+            post_model.postHtmlUrl = row["htmlUrl"].ToString();
+            post_model.postSupportCount = (int)row["supportCount"];
+            post_model.Theme.themeName = row["themeName"].ToString();
+            post_model.Theme.themeId = (int)row["themeId"];
+            post_model.commentCount = (row["commentCount"] != DBNull.Value ? (int)row["commentCount"] : 0);
+            return post_model;
+        }
+
+
     }
     
 }

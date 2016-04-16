@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"  />
     <title>@ViewBag.Title</title>
 
     <script src="~/Scripts/jquery-2.0.0.min.js"></script>
@@ -257,9 +257,11 @@
             /*position: fixed;
             top: 9%;
             left: 9%;*/
-            margin-top: 55px;
+            margin-top: 30px;
+            margin-bottom:0px;
+            
             z-index: 2;
-            height: 100px;
+            height: 80px;
         }
         /*导航栏里的链接*/
         .nav-tag {
@@ -289,30 +291,31 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#iconOut").click(function () {
+            //$("#iconOut").click(function () {
 
-                $("#theContainer").animate({ left: "0px" }, "slow");
+            //    $("#theContainer").animate({ left: "0px" }, "slow");
 
-                $("#theRightHiddenPage").css("display", "block");
-                $("#theRightHiddenPage").animate({ width: "250px" }, "slow");
+            //    $("#theRightHiddenPage").css("display", "block");
+            //    $("#theRightHiddenPage").animate({ width: "250px" }, "slow");
 
-                $("#iconOut").css("display", "none");
-                $("#theRightBar").css("display", "none");
-            });
+            //    $("#iconOut").css("display", "none");
+            //    $("#theRightBar").css("display", "none");
+            //});
             $("#consult").click(function () {
                 window.location.href = "Post";
-            });
-            $("#iconIn").click(function () {
-                //$("#TheContent").animate({ right: "100px" }, "slow");
-                $("#theContainer").css("left", "14%");
-                $("#theRightHiddenPage").animate({ width: "10px" }, "slow");
-                $("#theRightHiddenPage").css("display", "none");
-                $("#iconOut").css("display", "");
-                $("#theRightBar").css("display", "");
             });
             $("#ask").click(function () {
                 window.location.href = "Post";
             });
+            //$("#iconIn").click(function () {
+            //    //$("#TheContent").animate({ right: "100px" }, "slow");
+            //    $("#theContainer").css("left", "14%");
+            //    $("#theRightHiddenPage").animate({ width: "10px" }, "slow");
+            //    $("#theRightHiddenPage").css("display", "none");
+            //    $("#iconOut").css("display", "");
+            //    $("#theRightBar").css("display", "");
+            //});
+          
 
         });
     </script>
@@ -411,7 +414,7 @@
         <div id="tiwen" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="    kuaijie_out(this.id)" onclick="xianshi_ask_div()">
             <img src="/Images/Topic-Home-woyaotiwen.png" id="tiwen1" class="width_full" />
         </div>
-        <div id="zixun" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
+        <div id="zixun" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)" onclick="    window.location.href = '../Topic/Consult'">
             <img src="/Images/Topic-Home-zixun.png" id="zixun1" class="width_full" />
         </div>
         <div id="xinxi" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">

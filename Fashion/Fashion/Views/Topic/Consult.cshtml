@@ -1,0 +1,1002 @@
+﻿@{
+    ViewBag.Title = "Consult";
+    Layout = "~/Views/Shared/top.cshtml";
+}
+
+<script type="text/javascript">
+    //******************上传全身照的js代码********************
+    //图片上传预览    IE是用了滤镜。
+    function previewImage(file) {
+        document.getElementById("preview").innerHTML = "";
+        var img_new = document.createElement('img');//pl_data：评论的内容
+        img_new.id = "imghead"
+        document.getElementById("preview").appendChild(img_new);
+        var MAXWIDTH = 150;
+        var MAXHEIGHT = 200;
+        var div = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            div.innerHTML = '<img id=imghead>';
+            var img = document.getElementById('imghead');
+            img.onload = function () {
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, 150, 200);
+                img.width = rect.width;
+                img.height = rect.height;
+                //                 img.style.marginLeft = rect.left+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function (evt) { img.src = evt.target.result; }
+            reader.readAsDataURL(file.files[0]);
+        }
+        else //兼容IE
+        {
+            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            div.innerHTML = '<img id=imghead>';
+            var img = document.getElementById('imghead');
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
+            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
+        }
+    }
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = { top: 0, left: 0, width: width, height: height };
+        if (width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if (rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+</script>
+<script type="text/javascript">
+    //**********场合选择下拉列表的jQuery*********
+    $(function () {
+        $("#Sel_Occasion p").click(function () {
+            var ul = $("#Sel_Occasion ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#Sel_Occasion ul li").click(function () {
+            var txt = $(this).text();
+            $("#Sel_Occasion p").html(txt);
+            var value = $(this).attr("rel");
+            $("#Sel_Occasion ul").hide();
+        });
+
+    });
+    //**********身高选择下拉列表的jQuery*********
+    $(function () {
+        $("#height_Choose p").click(function () {
+            var ul = $("#height_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#height_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#height_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#height_Choose ul").hide();
+        });
+
+    });
+    //**********体重选择下拉列表的jQuery*********
+    $(function () {
+        $("#weight_Choose p").click(function () {
+            var ul = $("#weight_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#weight_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#weight_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#weight_Choose ul").hide();
+        });
+
+    });
+    //**********胸围选择下拉列表的jQuery*********
+    $(function () {
+        $("#chest_Choose p").click(function () {
+            var ul = $("#chest_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#chest_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#chest_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#chest_Choose ul").hide();
+        });
+
+    });
+    //**********腰围选择下拉列表的jQuery*********
+    $(function () {
+        $("#Waist_Choose p").click(function () {
+            var ul = $("#Waist_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#Waist_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#Waist_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#Waist_Choose ul").hide();
+        });
+
+    });
+    //**********臀围选择下拉列表的jQuery*********
+    $(function () {
+        $("#hipline_Choose p").click(function () {
+            var ul = $("#hipline_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#hipline_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#hipline_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#hipline_Choose ul").hide();
+        });
+
+    });
+    //**********年龄选择下拉列表的jQuery*********
+    $(function () {
+        $("#age_Choose p").click(function () {
+            var ul = $("#age_Choose ul");
+            if (ul.css("display") == "none") {
+                ul.slideDown("fast");
+            } else {
+                ul.slideUp("fast");
+            }
+        });
+        $("#age_Choose ul li").click(function () {
+            var txt = $(this).text();
+            $("#age_Choose p").html(txt);
+            var value = $(this).attr("rel");
+            $("#age_Choose ul").hide();
+        });
+
+    });
+</script>
+<style type="text/css">
+    /*************所有选择下拉框的样式CSS*************************/
+    #Sel_Occasion p {
+        width: 170px;
+        height: 20px;
+        line-height: 20px;
+        border: 1px solid #a9a9a9;
+        color: black;
+        cursor: pointer;
+        margin: 0;
+        color: gray;
+    }
+
+    #Sel_Occasion ul {
+        margin: 0;
+        padding: 0;
+        width: 170px;
+        height: 90px;
+        overflow: auto;
+        border: 1px solid #a9a9a9;
+        position: absolute;
+        display: none;
+        background: white;
+    }
+
+    #age_Choose p, #height_Choose p, #weight_Choose p, #chest_Choose p, #Waist_Choose p, #hipline_Choose p {
+        width: 50px;
+        height: 20px;
+        line-height: 20px;
+        border: 1px solid #a9a9a9;
+        color: black;
+        cursor: pointer;
+        margin: 0;
+        color: gray;
+    }
+
+    #age_Choose ul, #height_Choose ul, #weight_Choose ul, #chest_Choose ul, #Waist_Choose ul, #hipline_Choose ul {
+        margin: 0;
+        padding: 0;
+        width: 50px;
+        height: 60px;
+        overflow: auto;
+        border: 1px solid #a9a9a9;
+        position: absolute;
+        display: none;
+        background: white;
+    }
+
+        #Sel_Occasion ul li, #age_Choose ul li, #height_Choose ul li, #weight_Choose ul li, #chest_Choose ul li, #Waist_Choose ul li, #hipline_Choose ul li {
+            height: 20px;
+            line-height: 20px;
+            cursor: pointer;
+        }
+
+            #Sel_Occasion ul li:hover, #age_Choose ul li:hover, #height_Choose ul li:hover, #weight_Choose ul li:hover, #chest_Choose ul li:hover, #Waist_Choose ul li:hover, #hipline_Choose ul li:hover {
+                background: #c6dbfc;
+                color: #369;
+            }
+
+    ol, ul {
+        list-style: none;
+    }
+</style>
+<style>
+    .confirm_daren {
+        border: 1px solid #c6dbfc;
+        background-color: white;
+        height: 150px;
+        width: 400px;
+        position: absolute;
+        margin-top: 200px;
+        margin-left: 5%;
+        border-radius: 2px;
+        text-align: center;
+        z-index: 10;
+        display: none;
+    }
+
+    #tdzx_data_div_4 p {
+        color: #f75e24;
+    }
+
+    #tdzx_data_div_4 a {
+        color: #f75e24;
+    }
+
+        #tdzx_data_div_4 a:hover {
+            color: #ff0000;
+        }
+
+    .next_btn {
+        height: 30px;
+        width: 100px;
+        background-color: #524b4b;
+        font-weight: bold;
+        border-radius: 6px;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    .upload_fg {
+        border: 1px solid gray;
+        text-align: center;
+        line-height: 180px;
+        font-weight: bold;
+        color: white;
+        display: none;
+        height: 200px;
+        width: 150px;
+        cursor: pointer;
+        background-color: black;
+        filter: Alpha(Opacity=60); /*IE浏览器*/
+        -moz-opacity: 0.6; /*火狐浏览器*/
+        opacity: 0.6; /*其他浏览器*/
+        margin-top: -202px;
+    }
+
+    .circular {
+        float: left;
+        height: 50px;
+        width: 50px;
+        box-shadow: inset 0 1px 2px 1px #d4d2d2;
+        background-color: #f4f4f4;
+        border-radius: 25px;
+        border-top: 1px solid #c8c6c6;
+    }
+
+    .circular_finish {
+        float: left;
+        height: 50px;
+        width: 50px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        border-radius: 25px;
+    }
+
+    .circular_in {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        box-shadow: 2px 2px 6px #bbb;
+        margin-top: 5px;
+        margin-left: 5px;
+        text-align: center;
+        color: black;
+        line-height: 38px;
+        background-color: white;
+    }
+
+    .circular_in_finish {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        margin-top: 5px;
+        margin-left: 5px;
+        text-align: center;
+        color: black;
+        line-height: 38px;
+        background-color: white;
+    }
+
+    .jindutiao_line {
+        width: 130px;
+        height: 10px;
+        float: left;
+        background-color: #f4f4f4;
+        border-top: 1px solid #c8c6c6;
+        box-shadow: inset 0 1px 2px 1px #d4d2d2;
+        margin-top: 20px;
+        margin-left: -1px;
+    }
+
+    .jindutiao_line_ing {
+        width: 30px;
+        height: 10px;
+        float: left;
+        background-color: #000000;
+        border-top: 1px solid #000000;
+        margin-top: -1px;
+    }
+
+    .jindutiao_line_finish {
+        width: 130px;
+        height: 10px;
+        float: left;
+        background-color: #000000;
+        border-top: 1px solid #000000;
+        margin-top: 20px;
+    }
+
+    .jindu_bt {
+        float: left;
+        margin-right: 123px;
+        color: black;
+    }
+</style>
+<style>
+    .daren_Chose {
+        width: 70px;
+        float: left;
+        margin-left: 12px;
+        margin-right: 12px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .daren_Chose_over {
+        width: 70px;
+        height: 92px;
+        position: absolute;
+        background-color: #ffd800;
+        filter: Alpha(Opacity=30); /*IE浏览器*/
+        -moz-opacity: 0.3; /*火狐浏览器*/
+        opacity: 0.3; /*其他浏览器*/
+        display: none;
+        color: #ff6a00;
+    }
+
+    .text_daren_fg {
+        position: absolute;
+        text-align: center;
+        line-height: 90px;
+        width: 70px;
+        height: 92px;
+        color: white;
+        display: none;
+    }
+</style>
+<style>
+    /*颜色选择滑动条样式*/
+    .txtColor {
+        border: 1px solid #a9a9a9;
+        height: 20px;
+        width: 50px;
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .divColor {
+        position: absolute;
+        margin-top: 3px;
+        display: none;
+    }
+
+        .divColor div {
+            float: left;
+            width: 5px;
+            height: 5px;
+            line-height: 0px;
+            font-size: 0px;
+            cursor: pointer;
+        }
+
+        .divColor span {
+            display: block;
+            float: left;
+            width: 8px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .divColor .clear {
+            height: auto;
+            width: auto;
+            clear: both;
+            font-size: 0px;
+            line-height: 0px;
+        }
+</style>
+<div id="change_data_tab" class="tab_bar">
+    <h2 class="tab_ing">专家咨询</h2>
+</div>
+<div style="width:700px;float:left;margin-left:25px;">
+    <div style="width:700px;float:left;">
+        <div id="tdzx_step_1" class="circular_finish">
+            <div id="circular_in_1" class="circular_in_finish">
+                <img src="~/Images/Topic-Consult-wancheng.png" style="margin-top:10px;" />
+            </div>
+        </div>
+
+        <div id="jindutiao_line_1" class="jindutiao_line">
+            <div class="jindutiao_line_ing"></div>
+        </div>
+        <div id="tdzx_step_2" class="circular"><div id="circular_in_2" class="circular_in">2</div></div>
+        <div id="jindutiao_line_2" class="jindutiao_line"></div>
+        <div id="tdzx_step_3" class="circular"><div id="circular_in_3" class="circular_in">3</div></div>
+        <div id="jindutiao_line_3" class="jindutiao_line"></div>
+        <div id="tdzx_step_4" class="circular"><div id="circular_in_4" class="circular_in">4</div></div>
+    </div>
+    <div style="width: 700px; float: left;margin-top:5px;">
+        <div class="jindu_bt">基本资料</div>
+        <div class="jindu_bt">咨询详情</div>
+        <div class="jindu_bt">选择专家</div>
+        <div class="jindu_bt" style="margin-right:0px;">提交成功！</div>
+    </div>
+</div>
+<script>
+    function xs_data_div_Comfirmdaren(x) {     // 点击切换特定咨询模块步骤
+        document.getElementById("touming_fugai_div").style.display = "none";
+        document.getElementById("confirm_daren").style.display = "none";
+        var id_num = x.replace(/[^0-9]/ig, "");  //取得id中的数字
+        for (i = 1; i <= 4; i++) {
+            var data_div = "tdzx_data_div_" + i;
+            if (i == id_num) {
+                document.getElementById(data_div).style.display = "block";
+
+            }
+            else {
+                document.getElementById(data_div).style.display = "none";
+            }
+        }
+
+    }
+
+    function xs_data_div(x) {     // 点击切换特定咨询模块步骤
+        var id_num = x.replace(/[^0-9]/ig, "");  //取得id中的数字
+        for (i = 1; i <= 4; i++) {
+            var data_div = "tdzx_data_div_" + i;
+            if (i == id_num) {
+                document.getElementById(data_div).style.display = "block";
+
+            }
+            else {
+                document.getElementById(data_div).style.display = "none";
+            }
+        }
+    }
+
+    function step_click(x) {          // 点击切换特定咨询进度条的js
+        var id_num = x.replace(/[^0-9]/ig, "");  //取得id中的数字
+        for (i = 1; i <= 4; i++) {
+            var tdzx = "tdzx_step_" + i;      //特定咨询步骤id
+            var jdtl = "jindutiao_line_" + i;
+            var j = i - 1;
+            var circular_in_id = "circular_in_" + i;
+            if (i <= id_num) {
+
+                document.getElementById(tdzx).className = "circular_finish";
+                document.getElementById(circular_in_id).className = "circular_in_finish";
+                var jdt_val = document.getElementById(jdtl).innerHTML;
+
+                document.getElementById(circular_in_id).innerHTML = "";
+                var img_new = document.createElement('img');   //将进度圈内的数字替换成已完成图片
+                img_new.setAttribute('src', '../Images/Topic-Consult-wancheng.png');
+                img_new.style.marginTop = "10px";
+                document.getElementById(circular_in_id).appendChild(img_new);
+
+                if (jdt_val.length <= 0) {         //在空进度条div中创建显示为进行到一半的进度条
+                    var div_new = document.createElement('div');
+                    div_new.className = "jindutiao_line_ing";
+                    document.getElementById(jdtl).appendChild(div_new);
+
+                }
+                else if (id_num == 4) {
+                    document.getElementById("circular_in_4").innerHTML = "";
+                    var img_new = document.createElement('img');   //将进度圈内的数字替换成已完成图片
+                    img_new.setAttribute('src', '../Images/Topic-Consult-wancheng.png');
+                    img_new.style.marginTop = "10px";
+                    document.getElementById("circular_in_4").appendChild(img_new);
+                    document.getElementById(jdtl).innerHTML = "";    //清空进度条在div中创建显示为进行完全满的进度条
+                    var div_new = document.createElement('div');
+                    div_new.className = "jindutiao_line_ing";
+                    div_new.style.width = "130px";
+                    document.getElementById(jdtl).appendChild(div_new);
+                }
+                else if (id_num == i) {       //清空进度条在div中创建显示为进行到一半的进度条
+                    document.getElementById(jdtl).innerHTML = "";
+                    var div_new = document.createElement('div');
+                    div_new.className = "jindutiao_line_ing";
+                    document.getElementById(jdtl).appendChild(div_new);
+
+                }
+                else {
+                    document.getElementById(jdtl).innerHTML = "";    //清空进度条在div中创建显示为进行完全满的进度条
+                    var div_new = document.createElement('div');
+                    div_new.className = "jindutiao_line_ing";
+                    div_new.style.width = "130px";
+                    document.getElementById(jdtl).appendChild(div_new);
+                }
+
+            }
+            else {
+                document.getElementById(tdzx).className = "circular";
+                document.getElementById(circular_in_id).className = "circular_in";
+                var id_num_sz = ++id_num;
+                document.getElementById(circular_in_id).innerHTML = id_num_sz;
+                document.getElementById(jdtl).innerHTML = "";
+            }
+        }
+    }
+
+</script>
+<script>
+    function sousuo_daren() {            //点击搜索显示相关达人
+        var x = document.getElementById("sousuo_daren").value;
+        if (x.indexOf("y") >= 0 || x.indexOf("Y") >= 0) {
+            document.getElementById("daren_a_1").style.display = "block"
+            document.getElementById("daren_a_2").style.display = "block"
+            document.getElementById("daren_a_3").style.display = "block"
+            document.getElementById("daren_a_4").style.display = "block"
+            document.getElementById("daren_a_5").style.display = "block"
+            document.getElementById("daren_a_6").style.display = "block"
+            document.getElementById("daren_a_7").style.display = "block"
+            document.getElementById("daren_b_1").style.display = "none"
+            document.getElementById("daren_b_2").style.display = "none"
+            document.getElementById("daren_b_3").style.display = "none"
+            document.getElementById("daren_b_4").style.display = "none"
+            document.getElementById("daren_b_5").style.display = "none"
+            document.getElementById("daren_b_6").style.display = "none"
+            document.getElementById("daren_b_7").style.display = "none"
+            document.getElementById("daren_c_1").style.display = "none"
+            document.getElementById("daren_c_2").style.display = "none"
+            document.getElementById("daren_c_3").style.display = "none"
+            document.getElementById("daren_c_4").style.display = "none"
+            document.getElementById("daren_c_5").style.display = "none"
+            document.getElementById("daren_c_6").style.display = "none"
+            document.getElementById("daren_c_7").style.display = "none"
+        }
+        else if (x.indexOf("H") >= 0 || x.indexOf("h") >= 0) {
+
+            document.getElementById("daren_a_1").style.display = "none"
+            document.getElementById("daren_a_2").style.display = "none"
+            document.getElementById("daren_a_3").style.display = "none"
+            document.getElementById("daren_a_4").style.display = "none"
+            document.getElementById("daren_a_5").style.display = "none"
+            document.getElementById("daren_a_6").style.display = "none"
+            document.getElementById("daren_a_7").style.display = "none"
+            document.getElementById("daren_b_1").style.display = "block"
+            document.getElementById("daren_b_2").style.display = "block"
+            document.getElementById("daren_b_3").style.display = "block"
+            document.getElementById("daren_b_4").style.display = "block"
+            document.getElementById("daren_b_5").style.display = "block"
+            document.getElementById("daren_b_6").style.display = "block"
+            document.getElementById("daren_b_7").style.display = "block"
+            document.getElementById("daren_c_1").style.display = "none"
+            document.getElementById("daren_c_2").style.display = "none"
+            document.getElementById("daren_c_3").style.display = "none"
+            document.getElementById("daren_c_4").style.display = "none"
+            document.getElementById("daren_c_5").style.display = "none"
+            document.getElementById("daren_c_6").style.display = "none"
+            document.getElementById("daren_c_7").style.display = "none"
+        }
+        else if (x.indexOf("j") >= 0 || x.indexOf("J") >= 0 || x.indexOf("C") >= 0 || x.indexOf("c") >= 0) {
+
+            document.getElementById("daren_a_1").style.display = "none"
+            document.getElementById("daren_a_2").style.display = "none"
+            document.getElementById("daren_a_3").style.display = "none"
+            document.getElementById("daren_a_4").style.display = "none"
+            document.getElementById("daren_a_5").style.display = "none"
+            document.getElementById("daren_a_6").style.display = "none"
+            document.getElementById("daren_a_7").style.display = "none"
+            document.getElementById("daren_b_1").style.display = "none"
+            document.getElementById("daren_b_2").style.display = "none"
+            document.getElementById("daren_b_3").style.display = "none"
+            document.getElementById("daren_b_4").style.display = "none"
+            document.getElementById("daren_b_5").style.display = "none"
+            document.getElementById("daren_b_6").style.display = "none"
+            document.getElementById("daren_b_7").style.display = "none"
+            document.getElementById("daren_c_1").style.display = "block"
+            document.getElementById("daren_c_2").style.display = "block"
+            document.getElementById("daren_c_3").style.display = "block"
+            document.getElementById("daren_c_4").style.display = "block"
+            document.getElementById("daren_c_5").style.display = "block"
+            document.getElementById("daren_c_6").style.display = "block"
+            document.getElementById("daren_c_7").style.display = "block"
+        }
+    }
+    function Chose_daren_over(x) {     //当鼠标移上专家模块显示覆盖层
+        var fg_id = "fg_" + x;
+        document.getElementById(fg_id).style.display = "block";
+    }
+    function Chose_daren_out(x) {            //当鼠标从专家模块上移开时隐藏覆盖层
+        var fg_id = "fg_" + x;
+        document.getElementById(fg_id).style.display = "none";
+
+    }
+    var xz_daren_shu = 0;        //选择的专家个数；
+    function Chose_daren_click(x) {       //点击选择专家
+        if (xz_daren_shu <= 0) {
+            var fg_id = "fg_" + x;
+            var yx_id = "yx_" + x;
+            var name_id = "name_" + x;
+            document.getElementById(fg_id).style.display = "block";
+            document.getElementById(yx_id).style.display = "block";
+            document.getElementById(x).onmouseout = "";
+            document.getElementById(x).onclick = function () { Chose_daren_clicked(this.id); };
+            document.getElementById("yixuan_daren").innerHTML = document.getElementById(name_id).innerHTML;
+            xz_daren_shu++;
+        }
+        else {
+            alert("只能选择一个专家！");
+        }
+       
+
+    }
+    function Chose_daren_clicked(x) {             //点击取消选择专家
+        var fg_id = "fg_" + x;
+        var yx_id = "yx_" + x;
+        document.getElementById(fg_id).style.display = "none";
+        document.getElementById(yx_id).style.display = "none";
+        document.getElementById(x).onmouseout = function () { Chose_daren_out(this.id); };
+        document.getElementById(x).onclick = function () { Chose_daren_click(this.id); };
+        xz_daren_shu--;
+
+    }
+    function test_Chose_daren(x) {
+        
+        if (xz_daren_shu <= 0) {
+            alert("请至少选择一个达人为您搭配！");
+        }
+        else {
+            document.getElementById("touming_fugai_div").style.display = "block";
+            document.getElementById("confirm_daren").style.display = "block";
+        }
+    }
+</script>
+<style>
+    .tdzx_data_div {
+        border: 1px solid gray;
+        width: 640px;
+        height: auto;
+        float: left;
+        display: none;
+        padding-bottom: 40px;
+        margin-top: 25px;
+    }
+
+    .preview {
+        height: 200px;
+        width: 150px;
+        border: 1px solid gray;
+        cursor: pointer;
+        text-align: center;
+        line-height: 180px;
+    }
+</style>
+<script>
+    function test_finish_1(x) {     //检验基本资料模块是否填写完善
+        var qsz = document.getElementById("preview").innerHTML;
+        var if_age = document.getElementById("age_Choose_p").innerHTML;
+        var if_sg = document.getElementById("height_Choose_p").innerHTML;
+        var if_tz = document.getElementById("weight_Choose_p").innerHTML;
+        var if_fs = document.getElementById("txtColor").innerHTML;
+        var if_xw = document.getElementById("chest_Choose_p").innerHTML;
+        var if_yw = document.getElementById("Waist_Choose_p").innerHTML;
+        var if_tw = document.getElementById("hipline_Choose_p").innerHTML;
+        if (qsz.indexOf("点击上传图片") >= 0 || if_age.length <= 0 || if_sg.length <= 0 || if_tz.length <= 0 || if_fs.length <= 0 || if_xw.length <= 0 || if_yw.length <= 0 || if_tw.length <= 0) {
+            alert("请完善所有信息!");
+        }
+        else {
+            document.getElementById(x).onclick = function () { xs_data_div(this.id); step_click(this.id); };
+
+        }
+
+    }
+    function test_finish_2(x) {   //检查是否填写了具体描述
+        var textarea_value = document.getElementById("detailed_textarea").value;
+        if (textarea_value.length <= 0) {
+            alert("请填写具体描述！");
+        }
+        else {
+            document.getElementById(x).onclick = function () { xs_data_div(this.id); step_click(this.id); };
+        }
+    }
+    function close_comfirm_daren() {
+        document.getElementById('touming_fugai_div').style.display = 'none';
+        document.getElementById('confirm_daren').style.display = 'none';
+    }
+</script>
+<div id="tdzx_data_div_1" class="tdzx_data_div" style="padding-top: 50px; display: block; ">
+    <div style="float:left;margin-left:70px;">
+        <div id="preview" class="preview" onmouseover="document.getElementById('upload_fg').style.display = 'block';">
+            点击上传图片
+        </div>
+        <input type="file" onchange="previewImage(this)" style="display:none;" id="upload_qsz" />
+        <div id="upload_fg" class="upload_fg" onclick="document.getElementById('upload_qsz').click()" onmouseout="    document.getElementById('upload_fg').style.display = 'none'; ">点击更改照片</div>
+    </div>
+    <table id="base_bata_table" style="float:left;margin-left:100px;" cellspacing="5">
+        <tr>
+            <td>年龄：</td>
+            <td>
+                <div id="age_Choose">
+                    <p id="age_Choose_p"></p>
+                    <ul>
+                        @for (int i = 1; i < 120; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+            </td>
+            <td>周岁</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>身高：</td>
+            <td>
+                <div id="height_Choose">
+                    <p id="height_Choose_p"></p>
+                    <ul>
+                        @for (int i = 50; i < 240; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+
+            </td>
+            <td>cm</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>体重：</td>
+            <td>
+                <div id="weight_Choose">
+                    <p id="weight_Choose_p"></p>
+                    <ul>
+                        @for (int i = 20; i < 200; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+            </td>
+            <td>kg</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>肤色：</td>
+            <td>
+                <div id="txtColor" class="txtColor" onmouseover="selectColor(this);" onclick="document.getElementById('divColor').style.display = 'block';"></div>
+                <div id="divColor" class="divColor" onclick="document.getElementById('divColor').style.display = 'none';">
+                    <script type="text/javascript">
+                        // <![CDATA[
+
+                        function showColor(color) {
+                            document.getElementById('txtColor').style.backgroundColor = color;
+                            document.getElementById('txtColor').style.color = color;
+                            document.getElementById('txtColor').innerHTML = color;
+                        }
+
+
+                        var c = '0123456789ABCDEF';
+                        for (var r = 0; r < c.length; r++) {
+                            var color = '#' + c.charAt(r) + c.charAt(r) + c.charAt(r);
+                            document.write('<span onclick="setColor(\'' + color + '\');" onmouseover="showColor(\'' + color + '\');" style="background-color:' + color + ';"></span>');
+                        }
+
+                        // ]]></script>
+                </div>
+
+
+
+            </td>
+            <td>skin</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>胸围：</td>
+            <td>
+                <div id="chest_Choose">
+                    <p id="chest_Choose_p"></p>
+                    <ul>
+                        @for (int i = 50; i < 120; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+            </td>
+            <td>cm</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>腰围：</td>
+            <td>
+                <div id="Waist_Choose">
+                    <p id="Waist_Choose_p"></p>
+                    <ul>
+                        @for (int i = 50; i < 120; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+            </td>
+            <td>cm</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>臀围：</td>
+            <td>
+                <div id="hipline_Choose">
+                    <p id="hipline_Choose_p"></p>
+                    <ul>
+                        @for (int i = 50; i < 120; i++)
+                        {
+                            <li>@i</li>
+                        }
+                    </ul>
+                </div>
+            </td>
+            <td>cm</td>
+            <td>*</td>
+        </tr>
+    </table>
+
+    <div style="width:100%;text-align:center;float:left;margin-top:30px;">
+        <input id="next_step_btn_2" type="button" class="next_btn" value="下一步" onclick="test_finish_1(this.id);  " />
+    </div>
+</div>
+<div id="tdzx_data_div_2" class="tdzx_data_div" style="padding-top: 10px; text-align: center;">
+    <p style="color:#fb9b26;">*填写详细要求可让达人更好地帮您搭配，所以尽可能地写详细哦~亲!</p>
+    <form>
+        <table id="zixun_table" style="float:left;margin-left:100px;text-align:right;" cellspacing="5">
+            <tr>
+                <td>适用场合：</td>
+                <td>
+                    <div id="Sel_Occasion" style="text-align:left;">
+                        <p></p>
+                        <ul>
+                            <li>年会</li>
+                            <li>春游</li>
+                            <li>参加婚礼</li>
+                            <li>生日party</li>
+                            <li>相亲</li>
+                            <li>见家长</li>
+                            <li>其他</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr><td>喜欢的风格：</td><td><input type="text" style="color:gray;float:left;" /></td></tr>
+            <tr><td>讨厌的风格：</td><td><input type="text" style="color:gray;float:left;" /></td></tr>
+            <tr><td>具体描述：</td><td><textarea id="detailed_textarea" style="color:gray;width:200px;height:100px;border-radius:5px;"></textarea></td></tr>
+        </table>
+    </form>
+    <div style="width:100%;text-align:center;float:left;margin-top:30px;">
+        <input id="last_step_btn_1" type="button" class="next_btn" value="上一步" onclick="xs_data_div(this.id); step_click(this.id)" style="margin-right:80px;" />
+        <input id="next_step_btn_3" type="button" class="next_btn" value="下一步" onclick="test_finish_2(this.id)" />
+    </div>
+</div>
+<div id="tdzx_data_div_3" class="tdzx_data_div" style="padding-top: 30px;">
+    <div style="width:100%;float:left;text-align:center;">
+        <input type="text" id="sousuo_daren" style="border-radius:4px;border:1px solid #9a9a9a;height:25px;width:200px;padding-left:10px;" placeholder="搜索专家" />
+        <input type="button" value="搜索" style="height:28px;width:60px;" onclick="sousuo_daren()" />
+    </div>
+    <div style="width:80%;height:250px;float:left;margin-top:20px;margin-left:9%;overflow:auto;">
+        @for (int i = 1; i < 8; i++)
+        {
+            <div id="daren_a_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
+                <div style="float: left; width: 100%; ">
+                    <img src="~/Images/UserImages/TouXiang/daren_1.jpg" style="width: 100%;" />
+                </div>
+                <div id="name_daren_a_@i" style="float:left;text-align:center;width:100%;">Yoyo~@i</div>
+                <div id="fg_daren_a_@i" class="daren_Chose_over"></div>
+                <div id="text_daren_a_@i" class="text_daren_fg">模特</div>
+                <div id="yx_daren_a_@i" class="text_daren_fg">
+                    <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
+                </div>
+            </div>
+            <div id="daren_b_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
+                <div style="float: left; width: 100%; ">
+                    <img src="~/Images/UserImages/TouXiang/daren_2.jpg" style="width: 100%;" />
+                </div>
+                <div id="name_daren_b_@i" style="float:left;text-align:center;width:100%;" >Hanna~@i</div>
+                <div id="fg_daren_b_@i" class="daren_Chose_over"></div>
+                <div id="text_daren_b_@i" class="text_daren_fg">模特</div>
+                <div id="yx_daren_b_@i" class="text_daren_fg">
+                    <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
+                </div>
+            </div>
+
+            <div id="daren_c_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
+                <div style="float: left; width: 100%; ">
+                    <img src="~/Images/UserImages/TouXiang/daren_3.jpg" style="width: 100%;" />
+                </div>
+                <div id="name_daren_c_@i" style="float:left;text-align:center;width:100%;">JC~@i</div>
+                <div id="fg_daren_c_@i" class="daren_Chose_over"></div>
+                <div id="text_daren_c_@i" class="text_daren_fg">模特</div>
+                <div id="yx_daren_c_@i" class="text_daren_fg">
+                    <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
+                </div>
+            </div>
+        }
+    </div>
+    <div style="width:100%;text-align:center;float:left;margin-top:30px;">
+        <input id="last_step_btn_2" type="button" class="next_btn" value="上一步" onclick="xs_data_div(this.id); step_click(this.id)" style="margin-right:80px;" />
+        <input id="next_step_btn_4" type="button" class="next_btn" value="下一步" onclick="test_Chose_daren(this.id)" />
+    </div>
+</div>
+<div id="tdzx_data_div_4" class="tdzx_data_div">
+    <div style="width:100%;text-align:center;float:left;margin-top:25px;">
+        <img src="~/Images/Topic-Consult-wanchengzhang.png" />
+        <p>信息填写完成！您邀请的专家将尽快为您解答，请留意消息~</p>
+        <div style="margin-top: 10px; margin-bottom:20px;"><a href="../People/Asks">点击跳转到提问页面</a></div>
+    </div>
+</div>
+
+<div id="confirm_daren" class="confirm_daren">
+    <div style="width:100%;color:#f75e24;margin-top:35px;margin-bottom:40px;">
+        您选择了&nbsp;<font id="yixuan_daren"></font>&nbsp;为你搭配,需支付2个达人币！
+    </div>
+
+    <div style="width:100%;">
+        <input id="btn_4" type="button" value="确定" onclick=" xs_data_div_Comfirmdaren(this.id); step_click(this.id); " style="margin-right:80px;" />
+
+        <input type="button" value="取消" onclick="close_comfirm_daren();" />
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+﻿body {
+}
+label{
+    font-weight:normal;
+    font-size:2em;
+}
+td
+  {
+  text-align:right;
+  vertical-align:bottom;
+  padding:10px;
+  font-size:1.5em;
+}
+.designDivTop{
+    background-color: #b69d9d;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-left: 10px;
+}
+.designDivBody{
+    background-color: #ddddb2;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 10px;
+}
+.clothesImgBorder {
+    height: 250px;
+    width: 200px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-bottom:10px;
+    line-height:250px;
+    text-align:center;
+    margin-left:20%;
+} 
+.clothesImg {
+    height: 248px;
+    width: 198px;
+    border-radius: 20px;
+}
+#ExpertRegisterDiv_1 p{
+    text-indent: 20px; 
+    letter-spacing:8px;
+}
+#ExpertRegisterDiv_1 h3 {
+    letter-spacing:8px;
+}
+.hr-css{
+    border-bottom:2px solid #e9e2e2;
+    margin: 25px 0 35px 0;
+}
+/*************所有选择下拉框的样式CSS*************************/
+#Job_Choose ul{
+margin: 0;
+padding: 0;
+width: 94%;
+height: 120px;
+overflow: auto;
+border: 1px solid #a9a9a9;
+border-radius:4px;
+position: absolute;
+display: none;
+background: white;
+z-index:9;
+text-indent:13px;
+}
+#Job_Choose ul li{
+height: 30px;
+line-height: 30px;
+font-size:1.7em;
+cursor: pointer;
+color:gray;
+}
+#Job_Choose ul li:hover{
+background: #c6dbfc;
+color: #369;
+}
+
+#Job_Choose ol,#Job_Choose ul {
+list-style: none;
+}

@@ -2,20 +2,65 @@
     ViewBag.Title = "Change_Data";
     Layout = "~/Views/Shared/top.cshtml";
 }
-<script src="~/Scripts/date_rl_js/laydate.js"></script>
+<script src="~/Scripts/laydate.js"></script>
 <script src="~/Scripts/MyScripts/ImageFun.js"></script>
+<script type="text/javascript">
+    //******************上传全身照的js代码********************
+    //图片上传预览    IE是用了滤镜。
+    function previewImage(file, id) {
+        var MAXWIDTH = 250;
+        var MAXHEIGHT = 350;
+        var div = document.getElementById("preview");
+        if (file.files && file.files[0]) {
+            div.innerHTML = '<img id="imghead" style="height:350px;width:250px;border-radius:20px;" >';
+            var img = document.getElementById("imghead");
+            img.style.borderRadius = "20px";
+            img.onload = function () {
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, 250, 350);
+                img.width = rect.width;
+                img.height = rect.height;
+                //                 img.style.marginLeft = rect.left+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function (evt) { img.src = evt.target.result; }
+            reader.readAsDataURL(file.files[0]);
+        }
+        else //兼容IE
+        {
+            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            div.innerHTML = '<img id="imghead">';
+            var img = document.getElementById("imghead");
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
+            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
+        }
+    }
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = { top: 0, left: 0, width: width, height: height };
+        if (width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if (rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+</script>
 <style type="text/css">
     /*************所有选择下拉框的样式CSS*************************/
-    #Job_Choose p, #edu_bg_Choose p, #height_Choose p, #weight_Choose p, #chest_Choose p, #Waist_Choose p, #hipline_Choose p, #Leg_Choose p {
-        width: 170px;
-        height: 20px;
-        line-height: 20px;
-        border: 1px solid #a9a9a9;
-        color: black;
-        cursor: pointer;
-        margin: 0;
-    }
-
+    
     #Job_Choose ul, #edu_bg_Choose ul, #height_Choose ul, #weight_Choose ul, #chest_Choose ul, #Waist_Choose ul, #hipline_Choose ul, #Leg_Choose ul {
         margin: 0;
         padding: 0;
@@ -124,62 +169,6 @@
         })
     });
 </script>
-<script type="text/javascript">
-    //******************上传全身照的js代码********************
-    //图片上传预览    IE是用了滤镜。
-    function previewImage(file) {
-        var MAXWIDTH = 250;
-        var MAXHEIGHT = 350;
-        var div = document.getElementById('preview');
-        if (file.files && file.files[0]) {
-            div.innerHTML = '<img id="imghead" style="height:350px;width:250px;border-radius:20px;border:1px solid black;" >';
-            var img = document.getElementById('imghead');
-            img.style.borderRadius = "20px";
-            img.onload = function () {
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, 250, 350);
-                img.width = rect.width;
-                img.height = rect.height;
-                //                 img.style.marginLeft = rect.left+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function (evt) { img.src = evt.target.result; }
-            reader.readAsDataURL(file.files[0]);
-          
-            
-        }
-        else //兼容IE
-        {
-            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
-            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
-        }
-    }
-    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
-        var param = { top: 0, left: 0, width: width, height: height };
-        if (width > maxWidth || height > maxHeight) {
-            rateWidth = width / maxWidth;
-            rateHeight = height / maxHeight;
-
-            if (rateWidth > rateHeight) {
-                param.width = maxWidth;
-                param.height = Math.round(height / rateWidth);
-            } else {
-                param.width = Math.round(width / rateHeight);
-                param.height = maxHeight;
-            }
-        }
-
-        param.left = Math.round((maxWidth - param.width) / 2);
-        param.top = Math.round((maxHeight - param.height) / 2);
-        return param;
-    }
-</script>
 
 <script>
     //**********验证名字是否为2-4个中文字******
@@ -208,7 +197,7 @@
 <script type="text/javascript">
     //**********职业选择下拉列表的jQuery*********
     $(function () {
-        $("#Job_Choose p").click(function () {
+        $("#Job_Choose input").click(function () {
             var ul = $("#Job_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -218,7 +207,7 @@
         });
         $("#Job_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#Job_Choose p").html(txt);
+            $("#Job_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#Job_Choose ul").hide();
         });
@@ -226,7 +215,7 @@
     });
     //**********学历选择下拉列表的jQuery*********
     $(function () {
-        $("#edu_bg_Choose p").click(function () {
+        $("#edu_bg_Choose input").click(function () {
             var ul = $("#edu_bg_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -236,7 +225,7 @@
         });
         $("#edu_bg_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#edu_bg_Choose p").html(txt);
+            $("#edu_bg_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#edu_bg_Choose ul").hide();
         });
@@ -244,7 +233,7 @@
     });
     //**********身高选择下拉列表的jQuery*********
     $(function () {
-        $("#height_Choose p").click(function () {
+        $("#height_Choose input").click(function () {
             var ul = $("#height_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -254,7 +243,7 @@
         });
         $("#height_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#height_Choose p").html(txt);
+            $("#height_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#height_Choose ul").hide();
         });
@@ -262,7 +251,7 @@
     });
     //**********体重选择下拉列表的jQuery*********
     $(function () {
-        $("#weight_Choose p").click(function () {
+        $("#weight_Choose input").click(function () {
             var ul = $("#weight_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -272,7 +261,7 @@
         });
         $("#weight_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#weight_Choose p").html(txt);
+            $("#weight_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#weight_Choose ul").hide();
         });
@@ -280,7 +269,7 @@
     });
     //**********胸围选择下拉列表的jQuery*********
     $(function () {
-        $("#chest_Choose p").click(function () {
+        $("#chest_Choose input").click(function () {
             var ul = $("#chest_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -290,7 +279,7 @@
         });
         $("#chest_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#chest_Choose p").html(txt);
+            $("#chest_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#chest_Choose ul").hide();
         });
@@ -298,7 +287,7 @@
     });
     //**********腰围选择下拉列表的jQuery*********
     $(function () {
-        $("#Waist_Choose p").click(function () {
+        $("#Waist_Choose input").click(function () {
             var ul = $("#Waist_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -308,7 +297,7 @@
         });
         $("#Waist_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#Waist_Choose p").html(txt);
+            $("#Waist_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#Waist_Choose ul").hide();
         });
@@ -316,7 +305,7 @@
     });
     //**********臀围选择下拉列表的jQuery*********
     $(function () {
-        $("#hipline_Choose p").click(function () {
+        $("#hipline_Choose input").click(function () {
             var ul = $("#hipline_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -326,7 +315,7 @@
         });
         $("#hipline_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#hipline_Choose p").html(txt);
+            $("#hipline_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#hipline_Choose ul").hide();
         });
@@ -334,7 +323,7 @@
     });
     //**********腿围选择下拉列表的jQuery*********
     $(function () {
-        $("#Leg_Choose p").click(function () {
+        $("#Leg_Choose input").click(function () {
             var ul = $("#Leg_Choose ul");
             if (ul.css("display") == "none") {
                 ul.slideDown("fast");
@@ -344,7 +333,7 @@
         });
         $("#Leg_Choose ul li").click(function () {
             var txt = $(this).text();
-            $("#Leg_Choose p").html(txt);
+            $("#Leg_Choose input").val(txt);
             var value = $(this).attr("rel");
             $("#Leg_Choose ul").hide();
         });
@@ -428,69 +417,24 @@
         <caption style="float:left;font-size:1.5em;">个人信息</caption>
         <tr><td>真实姓名：</td><td><input type="text" id="Real_name" onblur="test_name(this.id)" /></td></tr>
         <tr>
-            <td>出身年月：</td>
+            <td>出生年月：</td>
             <td>
-                <input id="demo" value="">
+                <input class="laydate-icon" id="demo">
                 <script type="text/javascript">
-                    //**************点击出生年月的框框显示日历的js文件***********************************
-                    !function () {
-                        laydate.skin('default');
-                        laydate({ elem: '#demo' });//绑定元素
-                    }();
-
-                    //日期范围限制
-                    var start = {
-                        elem: '#start',
-                        format: 'YYYY-MM-DD',
-                        min: '1899-00-00', //设定最小日期为当前日期
-                        max: laydate.now(), //最大日期
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            end.min = datas; //开始日选好后，重置结束日的最小日期
-                            end.start = datas //将结束日的初始值设定为开始日
-                        }
-                    };
-
-                    var end = {
-                        elem: '#end',
-                        format: 'YYYY-MM-DD',
-                        min: '2899-00-00',
-                        max: laydate.now(),
-                        istime: true,
-                        istoday: false,
-                        choose: function (datas) {
-                            start.max = datas; //结束日选好后，充值开始日的最大日期
-                        }
-                    };
-                    laydate(start);
-                    laydate(end);
-
-                    //自定义日期格式
-                    laydate({
-                        elem: '#test1',
-                        format: 'YYYY年MM月DD日',
-                        festival: true, //显示节日
-                        choose: function (datas) { //选择日期完毕的回调
-                            alert('得到：' + datas);
-                        }
-                    });
-
-                    //日期范围限定在昨天到明天
-                    laydate({
-                        elem: '#hello3',
-                        min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
-                        max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
-                    });
+                        !function () {
+                            laydate.skin('default');//切换皮肤，请查看skins下面皮肤库
+                            laydate({ elem: '#demo' });//绑定元素
+                        }();
                 </script>
+
             </td>
         </tr>
         <tr>
             <td>职业：</td>
             <td>
                 <div id="Job_Choose">
-                    <p></p>
-                    <ul>
+                    <input type="text" />
+                    <ul style="display:none;">
                         <li>教师</li>
                         <li>学生</li>
                         <li>白领</li>
@@ -498,15 +442,15 @@
                         <li>其他</li>
                     </ul>
                 </div>
-
             </td>
+
         </tr>
         <tr><td>手机：</td><td><input type="text" id="phone_num" onblur="phone_num_test(this.id)" /></td></tr>
         <tr>
             <td>学历：</td>
             <td>
                 <div id="edu_bg_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         <li>小学以下</li>
                         <li>小学</li>
@@ -536,7 +480,7 @@
             <td>身高：</td>
             <td>
                 <div id="height_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 50; i < 240; i++)
                         {
@@ -550,7 +494,7 @@
             <td>体重：</td>
             <td>
                 <div id="weight_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 20; i < 200; i++)
                         {
@@ -564,7 +508,7 @@
             <td>胸围：</td>
             <td>
                 <div id="chest_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 50; i < 120; i++)
                         {
@@ -578,7 +522,7 @@
             <td>腰围：</td>
             <td>
                 <div id="Waist_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 50; i < 120; i++)
                         {
@@ -592,7 +536,7 @@
             <td>臀围：</td>
             <td>
                 <div id="hipline_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 50; i < 120; i++)
                         {
@@ -606,7 +550,7 @@
             <td>腿围：</td>
             <td>
                 <div id="Leg_Choose">
-                    <p></p>
+                    <input type="text" />
                     <ul>
                         @for (int i = 20; i < 80; i++)
                         {
@@ -624,9 +568,8 @@
         <caption style="float:left;font-size:1.5em;">全身照</caption>
         <tr>
             <td>
-                <div id="preview" style="height:350px;width:250px;border-radius:20px;border:1px solid black;">
-                    <img id="imghead" src='~/Images/Layout-iconIn.png' style="width: 100%; height: 100%;display:none;">
-                </div>
+                <div id="preview" style="height:350px;width:250px;border-radius:20px;border:1px solid black;"></div>
+                
                 <input type="file" onchange="previewImage(this)" style="margin-top:20px;" />
             </td>
         </tr>
@@ -636,80 +579,3 @@
 </div>
 <hr />
 <button class="save_zl" onclick="Save_Change(),tz_zhuye()">保存</button>
-<script>
-    //本函数实现鼠标移上快捷栏时，快捷栏的图标变成字
-    function kuaijie_over(x) {
-        document.getElementById(x).style.backgroundColor = "#808080";
-
-        if (x == "sousuo") {
-            document.getElementById(x).innerHTML = "点击搜索";
-            sousuok.style.display = "block";
-        }
-        else {
-            sousuo.innerHTML = "";
-            sousuo.style.backgroundColor = "#c4bfbf";
-            var img_tb = document.createElement('img');//创建图片图标
-            sousuok.style.display = "none";
-            img_tb.setAttribute('src', '../Images/Topic-Home-sousuo.png');
-
-            img_tb.className = "width_full";
-            sousuo.appendChild(img_tb);
-
-            if (x == "backtop") {
-                document.getElementById(x).innerHTML = "返回顶部";
-            }
-            else if (x == "tiwen") {
-                document.getElementById(x).innerHTML = "点击提问";
-            }
-            else if (x == "zixun") {
-                document.getElementById(x).innerHTML = "专家咨询";
-            }
-            else if (x == "xinxi") {
-                document.getElementById(x).innerHTML = "查看信息";
-            }
-        }
-    }
-    //实现当鼠标移开时，快捷栏还原
-    function kuaijie_out(x) {
-        document.getElementById(x).innerHTML = "";
-        document.getElementById(x).style.backgroundColor = "#c4bfbf";
-        var img_tb = document.createElement('img');//创建图片图标
-        sousuok.style.display = "none";
-        if (x == "tiwen") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-woyaotiwen.png');
-        }
-        else if (x == "zixun") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-zixun.png');
-        }
-        else if (x == "xinxi") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-xinxi.png');
-        }
-        else if (x == "backtop") {
-            img_tb.setAttribute('src', '../Images/Topic-Home-backtop.png');
-        }
-        img_tb.className = "width_full";
-        document.getElementById(x).appendChild(img_tb);
-    }
-</script>
-
-<div id="sousuok" class="ssk_div">
-    <input type="text" class="ssk" />
-</div>
-
-<div class="kjl_div">
-    <div id="sousuo" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)">
-        <img src="~/Images/Topic-Home-sousuo.png" class="width_full" />
-    </div>
-    <div id="tiwen" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-woyaotiwen.png" id="tiwen1" class="width_full" />
-    </div>
-    <div id="zixun" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-zixun.png" id="zixun1" class="width_full" />
-    </div>
-    <div id="xinxi" class="kuaijie_btn" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-xinxi.png" id="xinxi1" class="width_full" />
-    </div>
-    <div id="backtop" class="kuaijie_btn" onclick="scroll(0, 0)" onmouseover="kuaijie_over(this.id)" onmouseout="kuaijie_out(this.id)">
-        <img src="~/Images/Topic-Home-backtop.png" id="backtop1" class="width_full" />
-    </div>
-</div>

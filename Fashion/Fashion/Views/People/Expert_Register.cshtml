@@ -90,6 +90,15 @@
     }
 </script>
 <script>
+    //****************检查图片是否为JPG或pnd格式**********
+    function checkPhoto(fnUpload) {
+        var filename = document.getElementById(fnUpload).value;
+        var mime = filename.toLowerCase().substr(filename.lastIndexOf("."));
+        if (mime != ".jpg" && mime != ".png") {
+            alert("图片格式只能为JPG或PNG！");
+            document.getElementById(fnUpload).value = "";
+        }
+    }
     //*******************确定是否提交申请************************
     function confirmAll() {
         var ifConfirm = confirm("您确定提交申请了吗？一旦提交将不可再更改！");
@@ -172,12 +181,16 @@
         }
     }
     //******************点击添加图片上传框**********************
+    var fileNum = 0;
     function addFile() {
+        fileNum++;
         var input = document.createElement('input');
         input.type = "file";
+        input.id = "fileImg_" + fileNum;
         input.className = "form-control";
+        input.setAttribute("onchange", "checkPhoto(this.id)");
         input.style.marginBottom = "15px";
-        document.getElementById("certificate").appendChild(input);
+        document.getElementById("addcertificate").appendChild(input);
     }
     //*************判断是否有证书？若有，则显示添加图片模块**************
     function ifCheckCertificate(x) {
@@ -187,6 +200,7 @@
         }
         else {
             document.getElementById("certificate").style.display = "none";
+            document.getElementById("addcertificate").innerHTML = "";
 
         }
     }
@@ -331,9 +345,10 @@
                                     <div id="certificate" style="display: none;">
                                         <label>请上传证书照片</label>
                                         <div>
-                                            <input type="file" class="form-control" style="width: 80%; float: left;margin-bottom:15px;">
+                                            <input type="file" id="fileImg_0" class="form-control" style="width: 80%; float: left;margin-bottom:15px;"onchange="checkPhoto(this.id)">
                                             <input type="button" class="btn btn-primary" value="add" style="width: 15%; float: left; margin-left: 5%; margin-bottom: 15px;" onclick="addFile();" />
                                         </div>
+                                        <div id="addcertificate"></div><!--存放添加证书照片的file的div-->
                                     </div>
                                     <label for="SelfIntroduction">自我介绍</label>
                                     <textarea id="SelfIntroduction" class="form-control" rows="6" placeholder="关于时尚敏感度，好的自我介绍能让通过几率更高哦~"></textarea>

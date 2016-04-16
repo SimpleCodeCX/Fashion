@@ -34,8 +34,9 @@ td
     border: 1px solid black;
     margin-bottom:10px;
     line-height:250px;
+    margin-left: auto;
+    margin-right: auto;
     text-align:center;
-    margin-left:20%;
 } 
 .clothesImg {
     height: 248px;

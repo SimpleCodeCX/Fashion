@@ -143,8 +143,8 @@
     <Compile Include="Code\DAL\PostPhoto_dal.cs" />
     <Compile Include="Code\DAL\Post_dal.cs" />
     <Compile Include="Code\DAL\Rank_dal.cs" />
-    <Compile Include="Code\DAL\SqlHelper.cs" />
     <Compile Include="Code\DAL\SqlConnectionString.cs" />
+    <Compile Include="Code\DAL\SqlHelper.cs" />
     <Compile Include="Code\DAL\Theme_dal.cs" />
     <Compile Include="Code\DAL\User_dal.cs" />
     <Compile Include="Controllers\PeopleController.cs" />

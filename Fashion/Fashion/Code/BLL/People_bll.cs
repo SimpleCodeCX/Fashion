@@ -255,7 +255,30 @@ namespace Fashion.Code.BLL
         }
 
 
+        /// <summary>
+        /// 更新个人信息的数据 真实姓名，生日，职业，手机号，学历，兴趣
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="RealName"></param>
+        /// <param name="BirthDate"></param>
+        /// <param name="Profession"></param>
+        /// <param name="PhoneNumber"></param>
+        /// <param name="EducationalBackground"></param>
+        /// <param name="Interest"></param>
+        /// <returns></returns>
+        public int UpdateInformation(string UserName, string RealName, string BirthDate, string Profession, string PhoneNumber, string EducationalBackground, string Interest)
+        {
+            User_dal user = new User_dal();
 
+            if (user.UpdateInformation(UserName, RealName, BirthDate, Profession, PhoneNumber, EducationalBackground, Interest) == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
       
 
 

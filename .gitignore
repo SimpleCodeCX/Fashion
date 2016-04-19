@@ -4,5 +4,24 @@
 /Fashion/Fashion/Fashion.csproj.user
 /Fashion/Fashion/StaticHtml/TieZiHtml
 /Fashion/Fashion/Images/TieZiImages
+<<<<<<< HEAD
+/Fashion/Fashion/Code/DAL/SqlConnectionString.cs
+ Fashion/Fashion/Views/People/Expert_Register.cshtml
+ Fashion/Fashion/Views/Topic/Consult.cshtml
+ Fashion/Fashion/Views/Topic/Home.cshtml
+People/myAskes.cshtml
+People/Index.cshtml
+People/myAnsweres.cshtml
+People/myCollections.cshtml
+Top_menu.cshtml
+Top_nu_menu.cshtml
+=======
 /Fashion/Fashion/Images/UserImages
 /Fashion/Fashion/Code/DAL/SqlConnectionString.cs
+>>>>>>> 4b58ea11f6582ff3c440a3498358878614f3aca2
+People/myAskes.cshtml
+People/Index.cshtml
+People/myAnsweres.cshtml
+People/myCollections.cshtml
+Top_menu.cshtml
+Top_nu_menu.cshtml

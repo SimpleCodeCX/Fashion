@@ -168,6 +168,43 @@ namespace Fashion.Code.DAL
         }
 
 
+
+
+        /// <summary>
+        /// 更新个人信息的数据 真实姓名，生日，职业，手机号，学历，兴趣
+        /// 插入成功返回1
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="RealName">真实姓名</param>
+        /// <param name="BirthDate">生日</param>
+        /// <param name="Profession">职业</param>
+        /// <param name="PhoneNumber">手机号</param>
+        /// <param name="EducationalBackground">学历</param>
+        /// <param name="Interest">兴趣</param>
+        /// <returns></returns>
+        public int UpdateInformation(string UserName, string RealName, string BirthDate, string Profession, string PhoneNumber, string EducationalBackground, string Interest)
+        {
+            string sqlStr = @"update [tb_User] set User_RealName = @RealName,User_BirthDate=@BirthDate,User_Profession=@Profession,
+                              User_PhoneNumber= @PhoneNumber,User_EducationalBackground=@EducationalBackground,User_Interest=@Interest
+                             where User_Name=@UserName";
+
+            SqlParameter[] parameters = new SqlParameter[] { 
+                new SqlParameter("UserName",UserName),
+                new SqlParameter("RealName",RealName),
+                new SqlParameter("BirthDate",BirthDate),
+                new SqlParameter("Profession",Profession),
+                new SqlParameter("PhoneNumber",PhoneNumber),
+                new SqlParameter("EducationalBackground",EducationalBackground),
+                new SqlParameter("Interest",Interest),
+            };
+            return SqlHelper.ExecuteNonquery(sqlStr, parameters);
+        }
+
+        
+
+       
+
+
         /// <summary>
         /// 通过用户名查询该用户的盐值，返回类型为object
         /// </summary>

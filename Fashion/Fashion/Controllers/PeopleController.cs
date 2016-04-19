@@ -105,7 +105,58 @@ namespace Fashion.Controllers
             }
             return View();
         }
-       
+        public ActionResult UpdateInformation()
+        {
+            if (Session["userName"] == null)
+            {
+                return Content("请先登录");
+            }
+            
+            string userName = Session["userName"].ToString();
+            string realName = Request["realName"];
+            string BirthDate = Request["BirthDate"];
+            string Profession = Request["Profession"];
+            string PhoneNumber = Request["PhoneNumber"];
+            string EducationalBackground = Request["EducationalBackground"];
+            string Interest = Request["Interest"];
+
+            if (realName == null)
+            {
+                realName = null;
+            }
+            if (BirthDate == null)
+            {
+                BirthDate = null;
+            }
+            if (Profession == null)
+            {
+                Profession = null;
+            }
+            if (PhoneNumber == null)
+            {
+                PhoneNumber = null;
+            }
+            if (EducationalBackground == null)
+            {
+                EducationalBackground = null;
+            }
+            if (Interest == null)
+            {
+                Interest = null;
+            }
+            People_bll user = new People_bll();
+            if (user.UpdateInformation(userName,realName,BirthDate,Profession,PhoneNumber,EducationalBackground,Interest)==1)
+            {
+                ViewData["finshSave"]=1;
+                return RedirectToAction("Change_Data");
+            }
+            else
+            {
+                ViewData["finshSave"] = -1;
+                return RedirectToAction("Change_Data");
+            }
+           
+        }
 
 
        

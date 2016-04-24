@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "MyPostTemplate";
+    Layout = "~/Views/Shared/top.cshtml";
+}
+<style>
+    .theQuetion {
+        float: left;
+        width: 650px;
+        padding-bottom: 50px;
+        padding-left: 3%;
+    }
+
+    .theQuetionword {
+        float: left;
+        width: 80%;
+    }
+
+    .theQuetionHead {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #3541cc;
+    }
+
+    .theUserData {
+        font-size: small;
+    }
+
+    .theQuetionData {
+        margin: 2px 0;
+    }
+
+    .dataColor {
+        color: gray;
+    }
+
+    .imgBorder {
+        float: right;
+        width: 14%;
+        height: 90px;
+    }
+
+    .theQuetionImg {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+    }
+
+    .dashedLine {
+        float: left;
+        width: 100%;
+        margin: 25px 0;
+        border-top: 1px dashed;
+    }
+
+    .myQuetions {
+        float: left;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: inset 0 0 1px 0px #ccc;
+        color: #5c5757;
+        background-color: #fafafa;
+        cursor: pointer;
+    }
+
+        .myQuetions:hover {
+            background-color: #f7f7f7;
+            box-shadow: inset 0 0 1px 1px #ccc;
+            color: black;
+        }
+</style>
+<div class="tab_bar">
+    <h2 onclick="window.location.href = 'Index'">我的主页</h2>
+    <h2 class="tab_ing" onclick="window.location.href = 'myAsks'">提问<span>0</span></h2>
+    <h2 onclick="window.location.href = 'myAnsweres'">回答<span>0</span></h2>
+    <h2 onclick="window.location.href = 'myCollections'">收藏<span>0</span></h2>
+    <h2 onclick="window.location.href = 'Get_Approval'">获赞<span>0</span></h2>
+    <h2 onclick="window.location.href = 'Message'">消息<span>0</span></h2>
+</div>
+<div id="theQuetion" class="theQuetion">
+    <div class="myQuetions" onclick="window.location.href = 'myAnsweres'">
+        <div class="theQuetionword">
+
+            <div class="theQuetionHead">
+                <span>如何搭配衣服？</span><span><img src="~/Images/People-myAsks_huangguan.png" /></span>
+                <font style="font-size:smaller;">（如果是专家咨询的问题的话标题旁边会有皇冠）</font><!--这行代码起备注作用，可删-->
+            </div>
+            <div class="theUserData"><b>linjiejie</b>,我潮我做主~</div>
+            <p id="questionOmit1" class="theQuetionData">明天要去参加同学毕业典礼，想要一套适合的衣服，要求是显气质，还有不要日韩风，太普遍了，不喜欢。希望鞋子也能帮我配好，搭鞋子也是个问题。鞋子的码数是8码，但是偏胖，脚背高，辛苦啦~</p><!--这一段用了省略段落显示的JS-->
+            <div class="dataColor">2016-06-07</div><!--提问的时间-->
+            <script>
+                //省略段落显示
+                var titleStr = document.getElementById("questionOmit1").innerHTML;
+                var maxLen = 65;//你想显示的长度
+                if (titleStr.length > maxLen)//当显示的文字长度大于给定值时，显示一部分
+                    document.getElementById("questionOmit1").innerHTML = titleStr.substring(0, maxLen) + "...&nbsp;&nbsp;";
+                else
+                    document.getElementById("questionOmit1").innerHTML = titleStr + "...&nbsp;&nbsp;";
+            </script>
+        </div><!-- <div class="theQuetionword">-!end-->
+        <div class="imgBorder">
+            <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao3.jpg" class="theQuetionImg" />
+        </div>
+    </div><!--<div class="myQuetions">-!end-->
+    <div class="dashedLine"></div><!--水平分割线-->
+    <div class="myQuetions" onclick="window.location.href = 'myAnsweres'">
+        <div class="theQuetionword">
+            <div class="theQuetionHead"><span>如何搭配衣服？</span></div>
+            <div class="theUserData"><b>linjiejie</b>,我潮我做主~</div>
+            <p id="questionOmit2" class="theQuetionData">明天要去参加同学毕业典礼，想要一套适合的衣服，要求是显气质，还有不要日韩风，太普遍了，不喜欢。希望鞋子也能帮我配好，搭鞋子也是个问题。鞋子的码数是8码，但是偏胖，脚背高，辛苦啦~</p><!--这一段用了省略段落显示的JS-->
+            <div class="dataColor">2016-06-07</div><!--提问的时间-->
+            <script>
+                //省略段落显示
+                var titleStr = document.getElementById("questionOmit2").innerHTML;
+                var maxLen = 65;//你想显示的长度
+                if (titleStr.length > maxLen)//当显示的文字长度大于给定值时，显示一部分
+                    document.getElementById("questionOmit2").innerHTML = titleStr.substring(0, maxLen) + "...&nbsp;&nbsp;";
+                else
+                    document.getElementById("questionOmit2").innerHTML = titleStr + "...&nbsp;&nbsp;";
+            </script>
+        </div><!-- <div class="theQuetionword">-!end-->
+        <div class="imgBorder">
+            <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao3.jpg" class="theQuetionImg" />
+        </div>
+    </div><!--<div class="myQuetions">-!end-->
+    <div class="dashedLine"></div><!--水平分割线-->
+    <div class="myQuetions" onclick="window.location.href = 'myAnsweres'">
+        <div class="theQuetionword">
+            <div class="theQuetionHead"><span>如何搭配衣服？</span><span><img src="~/Images/People-myAsks_huangguan.png" /></span></div>
+            <div class="theUserData"><b>linjiejie</b>,我潮我做主~</div>
+            <p id="questionOmit3" class="theQuetionData">明天要去参加同学毕业典礼，想要一套适合的衣服，要求是显气质，还有不要日韩风，太普遍了，不喜欢。希望鞋子也能帮我配好，搭鞋子也是个问题。鞋子的码数是8码，但是偏胖，辛苦啦~</p><!--这一段用了省略段落显示的JS-->
+            <div class="dataColor">2016-06-07</div><!--提问的时间-->
+            <script>
+                //省略段落显示
+                var titleStr = document.getElementById("questionOmit3").innerHTML;
+                var maxLen = 65;//你想显示的长度
+                if (titleStr.length > maxLen)//当显示的文字长度大于给定值时，显示一部分
+                    document.getElementById("questionOmit3").innerHTML = titleStr.substring(0, maxLen) + "...&nbsp;&nbsp;";
+                else
+                    document.getElementById("questionOmit3").innerHTML = titleStr + "...&nbsp;&nbsp;";
+            </script>
+        </div><!-- <div class="theQuetionword">-!end-->
+        <div class="imgBorder">
+            <img src="~/Images/UserImages/QuanShenZhao/quanshenzhao3.jpg" class="theQuetionImg" />
+        </div>
+    </div><!--<div class="myQuetions">-!end-->
+</div><!--<div id="theQuetiones">-!end-->

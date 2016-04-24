@@ -508,7 +508,7 @@
                 </td>
             </tr>
             <tr>
-                <td>职业：</td>
+                <td>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</td>
                 <td>
                     <div id="Job_Choose">
                         <input type="text" name="Profession" />
@@ -523,9 +523,9 @@
                 </td>
 
             </tr>
-            <tr><td>手机：</td><td><input type="text" id="phone_num" onblur="phone_num_test(this.id)" name="PhoneNumber" /></td></tr>
+            <tr><td>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</td><td><input type="text" id="phone_num" onblur="phone_num_test(this.id)" name="PhoneNumber" /></td></tr>
             <tr>
-                <td>学历：</td>
+                <td>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</td>
                 <td>
                     <div id="edu_bg_Choose">
                         <input type="text" name="EducationalBackground" />
@@ -544,7 +544,7 @@
                     </div>
                 </td>
             </tr>
-            <tr><td>爱好：</td><td><input type="text" name="Interest" /></td></tr>
+            <tr><td>爱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;好：</td><td><input type="text" name="Interest" /></td></tr>
         </table>
         <input type="submit" class="baocun" name="" value=" 保存" onclick="Save_Change()" />
 
@@ -557,35 +557,7 @@
         <table cellspacing="10" style="float:left;">
             <caption style="float:left;font-size:1.5em;">体型特征</caption>
             <tr>
-                <td>身高：</td>
-                <td>
-                    <div id="height_Choose">
-                        <input type="text" name="Height" />
-                        <ul>
-                            @for (int i = 50; i < 240; i++)
-                            {
-                                <li>@i </li>
-                            }
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>体重：</td>
-                <td>
-                    <div id="weight_Choose">
-                        <input type="text" name="Weight" />
-                        <ul>
-                            @for (int i = 20; i < 200; i++)
-                            {
-                                <li>@i </li>
-                            }
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>肤色：</td>
+                <td>肤&nbsp;&nbsp;&nbsp;&nbsp;色：</td>
                 <td>
                     <div id="skin_Choose">
                         <input type="text" name="SkinColor" />
@@ -600,7 +572,37 @@
                 </td>
             </tr>
             <tr>
-                <td>胸围：</td>
+                <td>身&nbsp;&nbsp;&nbsp;&nbsp;高：</td>
+                <td>
+                    <div id="height_Choose">
+                        <input type="text" name="Height" />
+                        <ul>
+                            @for (int i = 50; i < 240; i++)
+                            {
+                                <li>@i </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>cm</td>
+            </tr>
+            <tr>
+                <td>体&nbsp;&nbsp;&nbsp;&nbsp;重：</td>
+                <td>
+                    <div id="weight_Choose">
+                        <input type="text" name="Weight" />
+                        <ul>
+                            @for (int i = 20; i < 200; i++)
+                            {
+                                <li>@i </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>cm</td>
+            </tr>
+            <tr>
+                <td>胸&nbsp;&nbsp;&nbsp;&nbsp;围：</td>
                 <td>
                     <div id="chest_Choose">
                         <input type="text" name="XiongWei" />
@@ -612,9 +614,10 @@
                         </ul>
                     </div>
                 </td>
+                <td>cm</td>
             </tr>
             <tr>
-                <td>腰围：</td>
+                <td>腰&nbsp;&nbsp;&nbsp;&nbsp;围：</td>
                 <td>
                     <div id="Waist_Choose">
                         <input type="text" name="YaoWei" />
@@ -626,9 +629,10 @@
                         </ul>
                     </div>
                 </td>
+                <td>cm</td>
             </tr>
             <tr>
-                <td>臀围：</td>
+                <td>臀&nbsp;&nbsp;&nbsp;&nbsp;围：</td>
                 <td>
                     <div id="hipline_Choose">
                         <input type="text" name="TunWei" />
@@ -640,6 +644,38 @@
                         </ul>
                     </div>
                 </td>
+                <td>cm</td>
+            </tr>
+            <tr>
+                <td>臂&nbsp;&nbsp;&nbsp;&nbsp;围：</td>
+                <td>
+                    <div id="ArmGirth_Choose">
+                        <input type="text" name="ArmGirth" />
+                        <ul>
+                            @for (int i = 20; i < 80; i++)
+                            {
+                                <li>@i </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>cm</td>
+            </tr>
+           
+            <tr>
+                <td>腿&nbsp;&nbsp;&nbsp;&nbsp;长：</td>
+                <td>
+                    <div id="LegLength_Choose">
+                        <input type="text" name="LegLength" />
+                        <ul>
+                            @for (int i = 20; i < 80; i++)
+                            {
+                                <li>@i </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>cm</td>
             </tr>
             <tr>
                 <td>大腿围：</td>
@@ -654,6 +690,7 @@
                         </ul>
                     </div>
                 </td>
+                <td>cm</td>
             </tr>
             <tr>
                 <td>小腿围：</td>
@@ -668,34 +705,7 @@
                         </ul>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td>腿长：</td>
-                <td>
-                    <div id="LegLength_Choose">
-                        <input type="text" name="LegLength" />
-                        <ul>
-                            @for (int i = 20; i < 80; i++)
-                            {
-                                <li>@i </li>
-                            }
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>臂围：</td>
-                <td>
-                    <div id="ArmGirth_Choose">
-                        <input type="text" name="ArmGirth" />
-                        <ul>
-                            @for (int i = 20; i < 80; i++)
-                            {
-                                <li>@i </li>
-                            }
-                        </ul>
-                    </div>
-                </td>
+                <td>cm</td>
             </tr>
         </table>
         <input type="submit" class="baocun" name="" value=" 保存" onclick="Save_Change()" />

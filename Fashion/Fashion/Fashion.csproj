@@ -149,11 +149,15 @@
     <Compile Include="Code\DAL\SqlHelper.cs" />
     <Compile Include="Code\DAL\Theme_dal.cs" />
     <Compile Include="Code\DAL\User_dal.cs" />
+    <Compile Include="Controllers\ConsultController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\StreetSnapController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -196,6 +200,7 @@
     <Content Include="Content\laydate-need.css" />
     <Content Include="Content\Peaple_upload_tx.css" />
     <Content Include="Content\People_Login.css" />
+    <Content Include="Content\Pinglun_css.css" />
     <Content Include="Content\share.css" />
     <Content Include="Content\laydate-skins.css" />
     <Content Include="Content\test.css" />
@@ -295,10 +300,9 @@
     <Content Include="Images\Topic-Home-xinxi.png" />
     <Content Include="Images\Topic-Home-yiguanzhu.png" />
     <Content Include="Images\Topic-Home-zixun.png" />
-    <Content Include="Images\UserImages\TouXiang\111.png" />
-    <Content Include="Images\UserImages\TouXiang\daren_1.jpg" />
-    <Content Include="Images\UserImages\TouXiang\daren_3.jpg" />
+    <Content Include="Images\Topic-PostDetails-rank.png" />
     <Content Include="Images\UserImages\QuanShenZhao\20140203_112158.jpg" />
+    <Content Include="Images\UserImages\TouXiang\touxiang1.png" />
     <Content Include="kindeditor\asp.net\bin\LitJSON.dll" />
     <Content Include="kindeditor\asp.net\demo.aspx" />
     <Content Include="kindeditor\asp.net\README.txt" />
@@ -600,6 +604,7 @@
     <Content Include="Views\Topic\PostDetails.cshtml" />
     <Content Include="Views\Error\DbError.cshtml" />
     <Content Include="Views\Test\yuanyangtest.cshtml" />
+    <Content Include="Views\Template\MyPostTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

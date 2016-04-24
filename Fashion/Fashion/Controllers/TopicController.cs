@@ -162,7 +162,7 @@ namespace Fashion.Controllers
             return Content("1");
         }
         /// <summary>
-        /// 实现原贴的点赞
+        /// 实现原贴的取消点赞
         /// 成功返回1
         /// 失败返回0
         /// </summary>
@@ -228,7 +228,7 @@ namespace Fashion.Controllers
             LoginStatusConfig();//验证登录
             if (Session["userName"] == null)
             {
-                return Content("请先登录");
+                return View("LoginRemind");
             }
             return View();
         }
@@ -250,12 +250,12 @@ namespace Fashion.Controllers
         {
             
             ////先把前端传回来的content内容保存为静态页面
-            byte[] byteData = new byte[Request.InputStream.Length]; //定义一个字节数组保存前端传回来的Post数据
+            byte[] byteData = new byte[Request.InputStream.Length]; //定义一个字节数组保存前端传回来的Post数据全部数据
             Request.InputStream.Read(byteData, 0, byteData.Length);//将流读取到byteData，InputStream读取到的是http头里的主体数据
             //string postData = System.Text.Encoding.Default.GetString(byteData);//系统的默认编码为gb2312,不适用这种
             string postData = System.Text.Encoding.UTF8.GetString(byteData);
-            postData = Server.UrlDecode(postData);
-            string[] datas = postData.Split('&');//对postData数据进行分割
+            postData = Server.UrlDecode(postData);//对数据进行url解码
+            string[] datas = postData.Split('&');//对postData数据进行分割，提取出发帖内容里的html数据
             string contentData = datas[1].ToString(); //data[1]为变量名为content的内容
             contentData = contentData.Substring(contentData.IndexOf('=') + 1);//去除变量名，如content=aaa，只取出aaa
             DateTime datetime = DateTime.Now;

@@ -1,7 +1,10 @@
 ﻿@{
     ViewBag.Title = "Consult";
     Layout = "~/Views/Shared/top.cshtml";
-    @model Fashion.Models.User_model
+    @model System.Collections.Generic.List<Fashion.Models.ExpertUserConsult_model> 
+    Fashion.Models.User_model user_model = (Fashion.Models.User_model)ViewData["user_model"];
+    
+
 }
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 <script src="~/Scripts/MyScripts/ImageFun.js"></script>
@@ -9,7 +12,7 @@
     //咨询填写成功后，调用ajax保存数据
     function ajaxSaveData()
     {
-        
+        var theExpertId = $("#hidSelectExpertId").val();        
         var imgGeRenZhao = document.getElementById("imghead");//获取个人照片
         var imgGeRenZhaoBase64 = getBase64Image(imgGeRenZhao);//将个人照片转化为base64数据
         var theOccasion = $("#Sel_Occasion p").html();//场合
@@ -18,14 +21,14 @@
         var likeStyleImageBase64 = getBase64Image(likeStyleImage);//将喜欢的风格的个人照片转化为base64数据
         var dislikeStyleImage = document.getElementById("hiddenDislikeStyleImage");//获取喜欢的风格的照片
         var dislikeStyleImageBase64 = getBase64Image(dislikeStyleImage);//将喜欢的风格的个人照片转化为base64数据
-        $.ajax({//通过ajax请求静态html的内容
+        $.ajax({
             async: false,
             url: "MakeConsult",
-            data: { geRenZhao: imgGeRenZhaoBase64, occasion: theOccasion, details: theDetails, likeStyleImage: likeStyleImageBase64, dislikeStyleImage: dislikeStyleImageBase64 },
+            data: { geRenZhao: imgGeRenZhaoBase64, occasion: theOccasion, details: theDetails, likeStyleImage: likeStyleImageBase64, dislikeStyleImage: dislikeStyleImageBase64, expertId: theExpertId },
             type: "post",
             success: function (result) {
                 alert(result);
-                //alert(result);//将帖子内容渲染到div里
+               
             }
         });
     }
@@ -755,6 +758,8 @@
     var xz_daren_shu = 0;        //选择的专家个数；
     function Chose_daren_click(x) {       //点击选择专家
         if (xz_daren_shu <= 0) {
+            var expertId = x.substring(8);
+            $("#hidSelectExpertId").val(expertId);
             var fg_id = "fg_" + x;
             var yx_id = "yx_" + x;
             var name_id = "name_" + x;
@@ -837,6 +842,14 @@
             alert("请填写具体描述！");
         }
         else {
+            //$.ajax({
+            //    async: false,
+            //    url: "../Consult/GetExpertConsult",
+            //    type: "post",
+            //    success: function (data) {
+            //        var jsonData = JSON.parse(data);
+            //    }
+            //});
             document.getElementById(x).onclick = function () { xs_data_div(this.id); step_click(this.id); };
             document.getElementById(x).click();
         }
@@ -859,7 +872,7 @@
             <td>年龄：</td>
             <td>
                 <div id="age_Choose">
-                    <input type="text" id="age_Choose_p" readonly="readonly" value="@Model.age"  style="width:50px;"/>
+                    <input type="text" id="age_Choose_p" readonly="readonly" value="@user_model.age"  style="width:50px;"/>
                     @*<p id="age_Choose_p"></p>
                     <ul>
                         @for (int i = 1; i < 120; i++)
@@ -876,7 +889,7 @@
             <td>身高：</td>
             <td>
                 <div id="height_Choose">
-                    <input type="text" id="height_Choose_p" readonly="readonly" value="@Model.height" style="width:50px;" />
+                    <input type="text" id="height_Choose_p" readonly="readonly" value="@user_model.height" style="width:50px;" />
                     @*<p id="height_Choose_p"></p>
                     <ul>
                         @for (int i = 50; i < 240; i++)
@@ -894,7 +907,7 @@
             <td>体重：</td>
             <td>
                 <div id="weight_Choose">
-                    <input type="text" id="weight_Choose_p" readonly="readonly" value="@Model.weight" style="width:50px;" />
+                    <input type="text" id="weight_Choose_p" readonly="readonly" value="@user_model.weight" style="width:50px;" />
                     @*<p id="weight_Choose_p"></p>
                     <ul>
                         @for (int i = 20; i < 200; i++)
@@ -910,7 +923,7 @@
         <tr>
             <td>肤色：</td>
             <td>
-                <input type="text" id="txtColor" readonly="readonly" value="@Model.skinColor" style="width:50px;"  />
+                <input type="text" id="txtColor" readonly="readonly" value="@user_model.skinColor" style="width:50px;"  />
                 @*<div id="txtColor" class="txtColor" onmouseover="selectColor(this);" onclick="document.getElementById('divColor').style.display = 'block';"></div>
                 <div id="divColor" class="divColor" onclick="document.getElementById('divColor').style.display = 'none';">
                     <script type="text/javascript">
@@ -942,7 +955,7 @@
             <td>胸围：</td>
             <td>
                 <div id="chest_Choose">
-                    <input type="text" id="chest_Choose_p" readonly="readonly" value="@Model.xiongWei" style="width:50px;" />
+                    <input type="text" id="chest_Choose_p" readonly="readonly" value="@user_model.xiongWei" style="width:50px;" />
                     @*<p id="chest_Choose_p"></p>
                     <ul>
                         @for (int i = 50; i < 120; i++)
@@ -959,7 +972,7 @@
             <td>腰围：</td>
             <td>
                 <div id="Waist_Choose">
-                    <input type="text" id="Waist_Choose_p" readonly="readonly" value="@Model.yaoWei" style="width:50px;" />
+                    <input type="text" id="Waist_Choose_p" readonly="readonly" value="@user_model.yaoWei" style="width:50px;" />
                     @*<p id="Waist_Choose_p"></p>
                     <ul>
                         @for (int i = 50; i < 120; i++)
@@ -976,7 +989,7 @@
             <td>臀围：</td>
             <td>
                 <div id="hipline_Choose">
-                    <input type="text" id="hipline_Choose_p" readonly="readonly" value="@Model.tunWei" style="width:50px;" />
+                    <input type="text" id="hipline_Choose_p" readonly="readonly" value="@user_model.tunWei" style="width:50px;" />
 
                     @*<p id="hipline_Choose_p"></p>
                     <ul>
@@ -1034,39 +1047,17 @@
         <input type="button" value="搜索" style="height:28px;width:60px;" onclick="sousuo_daren()" />
     </div>
     <div style="width:80%;height:250px;float:left;margin-top:20px;margin-left:9%;overflow:auto;">
-        @for (int i = 1; i < 8; i++)
+        
+        @foreach(var expertUserConsult_model in Model)
         {
-            <div id="daren_a_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
+            <div id="daren_a_@expertUserConsult_model.expertId" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
                 <div style="float: left; width: 100%; ">
-                    <img src="~/Images/UserImages/TouXiang/daren_1.jpg" style="width: 100%;" />
+                    <img src="@expertUserConsult_model.touXiangUrl" style="width: 100%;" />
                 </div>
-                <div id="name_daren_a_@i" style="float:left;text-align:center;width:100%;">Yoyo~@i</div>
-                <div id="fg_daren_a_@i" class="daren_Chose_over"></div>
-                <div id="text_daren_a_@i" class="text_daren_fg">模特</div>
-                <div id="yx_daren_a_@i" class="text_daren_fg">
-                    <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
-                </div>
-            </div>
-            <div id="daren_b_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
-                <div style="float: left; width: 100%; ">
-                    <img src="~/Images/UserImages/TouXiang/daren_2.jpg" style="width: 100%;" />
-                </div>
-                <div id="name_daren_b_@i" style="float:left;text-align:center;width:100%;" >Hanna~@i</div>
-                <div id="fg_daren_b_@i" class="daren_Chose_over"></div>
-                <div id="text_daren_b_@i" class="text_daren_fg">模特</div>
-                <div id="yx_daren_b_@i" class="text_daren_fg">
-                    <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
-                </div>
-            </div>
-
-            <div id="daren_c_@i" class="daren_Chose" onmouseover="Chose_daren_over(this.id)" onmouseout="Chose_daren_out(this.id)" onclick="Chose_daren_click(this.id)">
-                <div style="float: left; width: 100%; ">
-                    <img src="~/Images/UserImages/TouXiang/daren_3.jpg" style="width: 100%;" />
-                </div>
-                <div id="name_daren_c_@i" style="float:left;text-align:center;width:100%;">JC~@i</div>
-                <div id="fg_daren_c_@i" class="daren_Chose_over"></div>
-                <div id="text_daren_c_@i" class="text_daren_fg">模特</div>
-                <div id="yx_daren_c_@i" class="text_daren_fg">
+                <div id="name_daren_a_@expertUserConsult_model.expertId" style="float:left;text-align:center;width:100%;">@expertUserConsult_model.userName</div>
+                <div id="fg_daren_a_@expertUserConsult_model.expertId" class="daren_Chose_over"></div>
+                <div id="text_daren_a_@expertUserConsult_model.expertId" class="text_daren_fg">模特</div>
+                <div id="yx_daren_a_@expertUserConsult_model.expertId" class="text_daren_fg">
                     <img src="~/Images/Topic-Consult-xuanzeyixuanze.png" />
                 </div>
             </div>
@@ -1097,4 +1088,6 @@
     </div>
 
 </div>
-
+<div>
+    <input type="hidden" id="hidSelectExpertId" name="hidSelectExpertId" />
+</div>

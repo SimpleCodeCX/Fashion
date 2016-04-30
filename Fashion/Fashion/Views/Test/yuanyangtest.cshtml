@@ -1,88 +1,29 @@
-﻿@{
-    ViewBag.Title = "yuanyangtest";
-}
-<link href="~/Content/Topic_Home.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-2.0.0.min.js"></script>
-<script>
-    //鼠标划过问题内容时显示被隐藏评论操作的div
-    function xs_pinglun_op(x) {
-        var postId = x.substring(12);
-        var z = "pinglun-op" + postId;
-        document.getElementById(z).style.display = "block";
-    }
-    //鼠标移开问题内容时隐藏评论操作的div
-    function yc_pinglun_op(x) {      //鼠标out隐藏评论操作的div
-        var postId = x.substring(12);
-        var z = "pinglun-op" + postId;
-        document.getElementById(z).style.display = "none";
-
-    }
-    
+﻿<script src="~/kindeditor/lang/zh-CN.js"></script>
+<script src="~/kindeditor/kindeditor_yuanyang.js"></script>
+<link href="~/kindeditor/themes/default/default-yuanyang.css" rel="stylesheet" />
+<script type="text/javascript">
     $(document).ready(function () {
-        var commentCount = 10;//评论内容的条数
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('#theEditor', {
+                themeType: 'default',
+                width: 700,
+                height: 200,
+                langType: 'zh-CN',
+                //items: [
+                //    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                //    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                //    'insertunorderedlist', '|', 'emoticons', 'image', 'flash', 'media', 'link']
+            });
+        });
+        //submitBtn  postDataForm postDataForm
+        $("#submitBtn").click(function () {
+            editor.sync();
+            var theContent = editor.text();
+            $("#content200").val(theContent);
+            $("#postDataForm").submit();
+        });
 
-        var i = 0;
-        var TheCommentCodeHtml2 = $("#TheCommentCode").html();//一条评论数据的html模板
-        var TheCommentPingLunHtml2 = $("#TheCommentPingLun").html();//用户开始评论的html模板
-        var CommentHtml2 = "";//整块评论数据的html，即包含TheCommentCodeHtml和TheCommentPingLunHtml
-        
-
-        for (i = 0; i < 20;i++) {
-            CommentHtml2 = CommentHtml2 + TheCommentCodeHtml2;
-            CommentHtml2 = CommentHtml2.replace(/simplej/g, i);
-            
-        }
-        $("#div1").html(CommentHtml2);
-       
     });
 </script>
-
-
-<div id="div1">
-
-</div>
-
-@*这里是影藏的评论html模板，用于js调用*@
-<div id="TheCommentCode" style="display:none;">
-    <div class="pl_margin" id="pinglunkuang-simplei-simplej" onmouseover="xs_pinglun_op(this.id)" onmouseout="yc_pinglun_op(this.id)">
-        <div class="bottom_jg pl_er_tx">
-            <img src="simpleCommenterTouXiang" />
-        </div>
-        <div class="pl_main">
-            <div class="comments_er bottom_jg"><a href="">simpleCommenterUser</a></div>
-            <div class="bottom_jg">simpleContent</div>
-            <div class="bottom_jg">
-                <span class="comment_op">simpleDate</span>
-                <span class="yc comment_op" id="pinglun-op-simplei-simplej">
-                    <span id="huifu-simplei-simplej" onclick="huifukuang(this.id)"><img src="~/Images/Topic-Home-huifu.png" />回复</span>
-                    <span id="pl-dianzan-simplei-simplej" onclick="pl_dianzan(this.id)"><img src="~/Images/Topic-Home-dianzan.png" /><span id="pl-dianzan-btn-simplei-simplej">点赞</span></span>
-                    <span><img src="~/Images/Topic-Home-jubao.png" />举报</span>
-                </span>
-                <span class="comment_op fl_right"><span id="pl-dianzanshu-simplei-simplej">simpleSupportCount</span><span>赞</span></span>
-            </div>
-            <div id="huifu-pl-simplei-simplej"></div><!--回复评论产生的地方-->
-            <div id="plk-simplei-simplej"></div>     <!--产生回复评论框的地方-->
-
-
-        </div>
-
-    </div>
-    <hr class="pl_fgx" />
-
-
-
-</div>
-<div id="TheCommentPingLun" style="display:none;">
-    <div id="tjpl_simplei"></div>  <!--创建评论产生的地方-->
-
-    <hr style="border:none;border-top:1px solid #ebe4e4;width:100%;" />
-    <div class="page" id="fenye_div"></div>
-
-    <div class="plk_z">
-        <input id="pl_text_simplei" type="text" placeholder="写下你的评论..." class="pinglun_text" onclick="xs_pl_btn(this.id)" />
-        <div id="pl_op_simplei" class="pl_op yc">
-            <span class="qx_comment"><a onclick="yc_pl_btn(this.id)" id="qx_btn_simplei">取消</a></span>
-            <span><input id="pl_btn_simplei" type="button" value="评论" class="pl_btn" onclick="cj_pl(this.id)" /></span>
-        </div>
-    </div>
-</div>
+<textarea id="theEditor" name="content" placeholder="问题背景、条件等详细信息"></textarea>

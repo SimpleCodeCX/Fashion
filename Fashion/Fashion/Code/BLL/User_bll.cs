@@ -46,5 +46,18 @@ namespace Fashion.Code.BLL
             user_model.age = age;
             return user_model;
         }
+
+        /// <summary>
+        /// 获取一定数量的专家的数据：id、用户名、头像url  
+        /// 用于用户特定咨询的选择专家
+        /// </summary>
+        /// <returns></returns>
+        public List<ExpertUserConsult_model> GetExpertConsult()
+        {
+            List<ExpertUserConsult_model> expertUserConsult_modelList = new List<ExpertUserConsult_model>();
+            User_dal user_dal = new User_dal();
+            expertUserConsult_modelList = user_dal.GetExpertConsult();
+            return expertUserConsult_modelList;
+        }
     }
 }

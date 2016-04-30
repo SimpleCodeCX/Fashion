@@ -6,6 +6,20 @@
     <title>@ViewBag.Title</title>
     <script src="~/Scripts/jquery-2.0.0.min.js"></script>
     <script src="~/Scripts/MyScripts/Login.js"></script>
+    <script type="text/javascript">
+        //本函数实现退出登录
+        function AjaxMakeLoginOut() {
+            $.ajax({
+                url: "../User/AjaxMakeUnLogin",
+                success: function (data) {
+                    if (data == "1") {
+                        window.location.href = "../Topic/LoginRemind";
+                    }
+                }
+            });
+        }
+    </script>
+
     <script>
         $(document).ready(function () {
 
@@ -393,8 +407,7 @@
                     <li class="li_css" onclick="">
                         <img src="~/Images/Layout-set.png" class="img_jiange" />设置
                     </li>
-                    <li class="li_css" onclick="">
-
+                    <li class="li_css" onclick="AjaxMakeLoginOut();">
                         <img src="~/Images/Layout-out.png" class="img_jiange" />退出
                     </li>
                 </ul>

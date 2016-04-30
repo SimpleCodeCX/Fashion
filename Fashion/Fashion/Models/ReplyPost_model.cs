@@ -15,5 +15,15 @@ namespace Fashion.Models
         public int replyPostSupportCount;//点赞数
         public DateTime replyPostDate;//回帖日期
         public string replyPostHtmlUrl;//回帖帖子的静态页面地址
+        public int commentCount;//评论条数
+        public User_model Commenter;//User_model类，拥有用户的信息，回帖者
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ReplyPost_model()
+        {
+            Commenter = new User_model();
+        }
     }
 }

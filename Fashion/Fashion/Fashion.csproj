@@ -136,6 +136,9 @@
     <Compile Include="Code\BLL\PostComment_bll.cs" />
     <Compile Include="Code\BLL\PostPhoto_bll.cs" />
     <Compile Include="Code\BLL\Post_bll.cs" />
+    <Compile Include="Code\BLL\Rank_bll.cs" />
+    <Compile Include="Code\BLL\ReplyPost_bll.cs" />
+    <Compile Include="Code\BLL\SpecialConsultAnswerClothes_bll.cs" />
     <Compile Include="Code\BLL\SpecialConsult_bll.cs" />
     <Compile Include="Code\BLL\Theme_bll.cs" />
     <Compile Include="Code\BLL\User_bll.cs" />
@@ -144,6 +147,8 @@
     <Compile Include="Code\DAL\PostPhoto_dal.cs" />
     <Compile Include="Code\DAL\Post_dal.cs" />
     <Compile Include="Code\DAL\Rank_dal.cs" />
+    <Compile Include="Code\DAL\ReplyPost_dal.cs" />
+    <Compile Include="Code\DAL\SpecialConsultAnswerClothes_dal.cs" />
     <Compile Include="Code\DAL\SpecialConsult_dal.cs" />
     <Compile Include="Code\DAL\SqlConnectionString.cs" />
     <Compile Include="Code\DAL\SqlHelper.cs" />
@@ -161,11 +166,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="kindeditor\asp.net\upload_json.ashx.cs">
-      <DependentUpon>upload_json.ashx</DependentUpon>
+    <Compile Include="kindeditor\asp.net\ExpertAnswerUpload_json.ashx.cs">
+      <DependentUpon>ExpertAnswerUpload_json.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="kindeditor\asp.net\PostUpload_json.ashx.cs">
+      <DependentUpon>PostUpload_json.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\Attention_model.cs" />
     <Compile Include="Models\Collect_model.cs" />
+    <Compile Include="Models\ExpertUserConsult_model.cs" />
     <Compile Include="Models\PostComment_model.cs" />
     <Compile Include="Models\ErrorMessage_model.cs" />
     <Compile Include="Models\Message_model.cs" />
@@ -174,6 +183,7 @@
     <Compile Include="Models\Post_model.cs" />
     <Compile Include="Models\Rank_model.cs" />
     <Compile Include="Models\ReplyPost_model.cs" />
+    <Compile Include="Models\SpecialConsult_model.cs" />
     <Compile Include="Models\StreetSnapType_model.cs" />
     <Compile Include="Models\StreetSnap_model.cs" />
     <Compile Include="Models\Theme_model.cs" />
@@ -262,6 +272,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="Images\Consult-ConsultDetails-unhappy.png" />
     <Content Include="Images\Layout-guanbi.png" />
     <Content Include="Images\Layout-logo.png" />
     <Content Include="Images\Layout-myzhuye.png" />
@@ -271,6 +282,8 @@
     <Content Include="Images\Layout-usertouxiang.png" />
     <Content Include="Images\Layout-weibo.png" />
     <Content Include="Images\Layout-weixin.png" />
+    <Content Include="Images\People-ExpertAnswer-addlink.png" />
+    <Content Include="Images\People-ExpertAnswer-addlinkover.png" />
     <Content Include="Images\People-Expert_Register-add.png" />
     <Content Include="Images\People-Expert_Register-addImg.png" />
     <Content Include="Images\People-Expert_Register-WaitForAudit.png" />
@@ -289,6 +302,7 @@
     <Content Include="Images\Topic-Home-fenxiang.png" />
     <Content Include="Images\Topic-Home-ganxie.png" />
     <Content Include="Images\Topic-Home-huifu.png" />
+    <Content Include="Images\Topic-Home-Ianswers.png" />
     <Content Include="Images\Topic-Home-jubao.png" />
     <Content Include="Images\Topic-Home-pinglun.png" />
     <Content Include="Images\Topic-Home-plus.png" />
@@ -301,7 +315,9 @@
     <Content Include="Images\Topic-Home-yiguanzhu.png" />
     <Content Include="Images\Topic-Home-zixun.png" />
     <Content Include="Images\Topic-PostDetails-rank.png" />
-    <Content Include="Images\UserImages\QuanShenZhao\20140203_112158.jpg" />
+    <Content Include="Images\UserImages\TouXiang\daren_1.jpg" />
+    <Content Include="Images\UserImages\TouXiang\daren_2.jpg" />
+    <Content Include="Images\UserImages\TouXiang\daren_3.jpg" />
     <Content Include="Images\UserImages\TouXiang\touxiang1.png" />
     <Content Include="kindeditor\asp.net\bin\LitJSON.dll" />
     <Content Include="kindeditor\asp.net\demo.aspx" />
@@ -502,8 +518,10 @@
     <Content Include="kindeditor\themes\common\media.gif" />
     <Content Include="kindeditor\themes\common\rm.gif" />
     <Content Include="kindeditor\themes\default\background.png" />
+    <Content Include="kindeditor\themes\default\default-yuanyang.css" />
     <Content Include="kindeditor\themes\default\default.css" />
     <Content Include="kindeditor\themes\default\default.png" />
+    <Content Include="kindeditor\kindeditor_yuanyang.js" />
     <Content Include="kindeditor\themes\qq\editor.gif" />
     <Content Include="kindeditor\themes\qq\qq.css" />
     <Content Include="kindeditor\themes\simple\simple.css" />
@@ -526,11 +544,13 @@
     <Content Include="Images\people-wrong.png" />
     <Content Include="WebForm1.aspx" />
     <Content Include="kindeditor\asp.net\file_manager_json.ashx" />
-    <Content Include="kindeditor\asp.net\upload_json.ashx" />
+    <Content Include="kindeditor\asp.net\PostUpload_json.ashx" />
     <Content Include="Content\bootstrap\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap\bootstrap.css.map" />
     <Content Include="Content\bootstrap\bootstrap.min.css.map" />
+    <Content Include="kindeditor\asp.net\ExpertAnswerUpload_json.ashx" />
+    <None Include="Properties\PublishProfiles\11.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\Layout-iconIn.png" />
     <Content Include="Images\Layout-iconOut.png" />
@@ -605,14 +625,21 @@
     <Content Include="Views\Error\DbError.cshtml" />
     <Content Include="Views\Test\yuanyangtest.cshtml" />
     <Content Include="Views\Template\MyPostTemplate.cshtml" />
+    <Content Include="Views\Consult\ConsultDetails.cshtml" />
+    <Content Include="Views\Consult\ExpertAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Code\Ajax\" />
+    <Folder Include="Images\ConsultExpertAnswerImages\" />
     <Folder Include="Images\ConsultImages\DislikeStyleImage\" />
     <Folder Include="Images\ConsultImages\GeRenZhao\" />
     <Folder Include="Images\ConsultImages\LikeStyleImage\" />
+    <Folder Include="Images\HuiTieImages\" />
     <Folder Include="Images\TieZiImages\" />
+    <Folder Include="Images\UserImages\QuanShenZhao\" />
+    <Folder Include="StaticHtml\ConsultAnswerHtml\" />
+    <Folder Include="StaticHtml\HuiTieHtml\" />
     <Folder Include="StaticHtml\TieZiHtml\" />
     <Folder Include="test\" />
   </ItemGroup>

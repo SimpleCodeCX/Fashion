@@ -13,11 +13,12 @@ namespace Fashion.Controllers
 
         public ActionResult Index()
         {
+            
             return View();
         }
         public ActionResult Index2()
         {
-            ViewData["aa"] = Request.Files[0].FileName;
+          //  ViewData["aa"] = Request.Files[0].FileName;
             //foreach(string file in Request.Files)
             //{
             //    HttpPostedFileBase postFile = Request.Files[file];

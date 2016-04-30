@@ -71,10 +71,10 @@ namespace Fashion.Code.DAL
       /// <param name="min">第一条数据id</param>
       /// <param name="max">最后一条数据id</param>
       /// <returns></returns>
-        public List<Post_model> GetPost(int page,int min=1, int max=10)
+        public List<Post_model> GetPost(int page,int min, int max)
         {
             string sqlStr = @"select * from(
-                                                          select ROW_NUMBER()over(order by id) orderNumber,* from PostView
+                                                          select ROW_NUMBER() over(order by id) orderNumber,* from PostView
                                                                ) as postTable 
                                                       where postTable.orderNumber between @min and @max";
             SqlParameter[] parameters = new SqlParameter[] { 
@@ -90,6 +90,40 @@ namespace Fashion.Code.DAL
             return post_modelList;
         }
 
+        /// <summary>
+        /// 获取全部帖子数据
+        /// </summary>
+        /// <returns></returns>
+        public List<Post_model> GetAllPost()
+        {
+            string sqlStr = "select * from PostView";
+            DataTable dataTable = SqlHelper.ExecuteDataTable(sqlStr);
+            List<Post_model> post_modelList = new List<Post_model>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                post_modelList.Add(ToModel(row));
+            }
+            return post_modelList;
+
+        }
+
+        /// <summary>
+        /// 获取帖子编号为postId的数据,一条数据
+        /// </summary>
+        /// <param name="postId">帖子编号</param>
+        /// <returns></returns>
+        public Post_model GetOnePost(int postId)
+        {
+            string sqlStr = "select * from PostView where id=@postId";
+            SqlParameter[] parameters = new SqlParameter[] { 
+                new SqlParameter("@postId",postId)
+            };
+            DataTable dataTable = SqlHelper.ExecuteDataTable(sqlStr, parameters);
+            Post_model post_model= new Post_model();
+            post_model = ToModel(dataTable.Rows[0]);
+            return post_model;
+        }
+        
         /// <summary>
         /// 将一条数据转化为Post_model数据
         /// </summary>
@@ -111,6 +145,7 @@ namespace Fashion.Code.DAL
             post_model.Theme.themeName = row["themeName"].ToString();
             post_model.Theme.themeId = (int)row["themeId"];
             post_model.commentCount = (row["commentCount"] != DBNull.Value ? (int)row["commentCount"] : 0);
+            post_model.tuiTieCount = (row["tuiTieCount"] != DBNull.Value ? (int)row["tuiTieCount"] : 0);
             return post_model;
         }
         

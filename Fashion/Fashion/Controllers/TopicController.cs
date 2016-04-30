@@ -18,7 +18,15 @@ namespace Fashion.Controllers
         public ActionResult PostDetails()
         {
 
-            return View();
+            int postId = 187;
+            //获取postId的原帖数据
+            Post_bll post_bll = new Post_bll();
+            Post_model post_mode = post_bll.GetOnePost(postId);
+            ViewData["post_mode"] = post_mode;
+            //获取对postId原帖的回帖数据
+            ReplyPost_bll replyPost_bll =new ReplyPost_bll();
+            List<ReplyPost_model> replyPost_modelList = replyPost_bll.GetReplyPost(postId);
+            return View(replyPost_modelList);
         }
         public ActionResult ExpertReply()
         {
@@ -36,16 +44,19 @@ namespace Fashion.Controllers
         /// <returns></returns>
         public ActionResult Consult()
         {
+            User_bll user_bll = new User_bll();
+            //获取专家的ExpertUserConsult_model数据
+            List<ExpertUserConsult_model> expertUserConsult_modelList = user_bll.GetExpertConsult();
             if (Session["username"] == null)
             {
                 return View("loginremind");
             }
             string userName = Session["username"].ToString();
-            User_bll user_bll = new User_bll();
             User_model user_model = new User_model();
             user_model = user_bll.GetUserDataConsult(userName);//用户的个人数据
             LoginStatusConfig();//配置登录状态
-            return View(user_model);
+            ViewData["user_model"] = user_model;
+            return View(expertUserConsult_modelList);
         }
 
         /// <summary>
@@ -63,7 +74,7 @@ namespace Fashion.Controllers
             int userId = user_bll.GetUserId(userName);
             //string expertName=Request[].ToString();
             //int expertId = user_bll.GetUserId(expertName);
-            int expertId = 22;
+            int expertId = Convert.ToInt32(Request["expertId"]);
             string occasion = Request["occasion"].ToString();//场合
             string details = Request["details"].ToString();//特定咨询详情
             
@@ -105,7 +116,10 @@ namespace Fashion.Controllers
         }
         
         
-        
+        /// <summary>
+        /// 主页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Home()
         {
             if (Session["userName"] == null)
@@ -113,11 +127,9 @@ namespace Fashion.Controllers
                 return View("LoginRemind");
             }
             Post_bll post_bll = new Post_bll();
-            List<Post_model>post_modelList=post_bll.GetPost(1);
-            LoginStatusConfig();          //配置登录状态
-            
+            List<Post_model>post_modelList=post_bll.GetPost(1,1,20);
+            LoginStatusConfig();          //配置登录状态            
             return View(post_modelList);
-            
         }
         /// <summary>
         /// 获取Home页面的数据，帖子遍历的数据
@@ -211,7 +223,14 @@ namespace Fashion.Controllers
             
         }
 
-        
+        /// <summary>
+        /// 未登录提醒页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult LoginRemind()
+        {
+            return View();
+        }
         
         public ActionResult Answer()
         {

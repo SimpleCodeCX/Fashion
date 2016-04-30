@@ -11,7 +11,19 @@
 </head>
 <body>
     <div>
-        @ViewData["aa"]
+        @{
+            List<Fashion.Models.Post_model> ll = new List<Fashion.Models.Post_model>();
+            Fashion.Models.Post_model a = new Fashion.Models.Post_model();
+            a.postCaption = "1111";
+            ll.Add(a);
+            ll.Add(a);
+            ll.Add(a);
+            
+        }
+        @for (int i = 0; i < ll.Count; i++)
+        { 
+            <div>@ll[i].postCaption</div>
+        }
     </div>
 </body>
 </html>

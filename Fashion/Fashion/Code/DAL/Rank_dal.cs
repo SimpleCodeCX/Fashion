@@ -21,7 +21,12 @@ namespace Fashion.Code.DAL
             };
             return SqlHelper.ExecuteScalar(sqlStr, parameters);
         }
-
+        
+        /// <summary>
+        /// 通过等级Id，获得用户角色等级等级名
+        /// </summary>
+        /// <param name="rankId"></param>
+        /// <returns></returns>
         public object GetRankName(char rankId)
         {
             string sqlStr = "select Rank_Name from [tb_Rank] where Rank_Id=@rankId";
@@ -30,6 +35,23 @@ namespace Fashion.Code.DAL
             };
             return SqlHelper.ExecuteScalar(sqlStr,parameters);
         }
+
+
+        /// <summary>
+        /// 重载函数
+        /// 通过用户名，获得用户角色等级等级名
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <returns></returns>
+        public object GetRankName(string userName)
+        {
+            string sqlStr = "select Rank_Name from tb_User left join tb_Rank on tb_User.User_RankId=tb_Rank.Rank_Id where tb_User.User_Name=@userName";
+            SqlParameter[] parameters = new SqlParameter[] { 
+                new SqlParameter("@userName",userName)
+            };
+            return SqlHelper.ExecuteScalar(sqlStr, parameters);
+        }
+        
 
 
 

@@ -19,9 +19,13 @@ namespace Fashion.Models
         public int age;//年龄
         public DateTime birthDate;//出生年月
         public float height;//身高
+        public float tuiChang;//腿长
+        public float daTuiWei;//大腿围
         public float tunWei;//臀围
         public float yaoWei;//腰围
+        public float biWei;//臂围
         public float xiongWei;//胸围
+        public float xiaoTunWei;//小臀围
         public float weight;//体重
         public string skinColor;//肤色
         public string phoneNumber;//手机号码

@@ -104,10 +104,20 @@ namespace Fashion.Code.BLL
         /// <param name="page">页数</param>
         /// <param name="min">第一条数据id</param>
         /// <param name="max">最后一条数据id</param>
-        public List<Post_model> GetPost(int page, int min = 1, int max = 10)
+        public List<Post_model> GetPost(int page, int min, int max)
         {
             Post_dal post_dal = new Post_dal();
             return post_dal.GetPost(page, min, max);
+        }
+        /// <summary>
+        /// 获取帖子编号为postId的数据,一条数据
+        /// </summary>
+        /// <param name="postId">帖子编号</param>
+        /// <returns></returns>
+        public Post_model GetOnePost(int postId)
+        {
+            Post_dal post_dal = new Post_dal();
+            return post_dal.GetOnePost(postId);
         }
 
         /// <summary>

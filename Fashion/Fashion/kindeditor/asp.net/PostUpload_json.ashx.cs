@@ -6,7 +6,7 @@ using System.Web;
 namespace Fashion.kindeditor.asp.net
 {
     /// <summary>
-    /// upload_json2 的摘要说明
+    /// PostUpload_json 的摘要说明
     /// </summary>
     public class upload_json2 : IHttpHandler
     {

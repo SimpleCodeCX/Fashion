@@ -26,7 +26,7 @@ namespace Fashion.Code.DAL
             };
             return SqlHelper.ExecuteScalar(sqlStr, parameters);
         }
-
+        
 
        /// <summary>
        /// 获取用户的密码
@@ -129,6 +129,8 @@ namespace Fashion.Code.DAL
             return SqlHelper.ExecuteScalar(sqlStr, parameters);
         }
 
+        
+
         /// <summary>
         /// 获取用户的个人基本信息（真实姓名，生日，职业，手机，学历，爱好）
         /// </summary>
@@ -141,7 +143,6 @@ namespace Fashion.Code.DAL
                 new SqlParameter("@userName",userName)
             };
            return SqlHelper.ExecuteDataTable(sqlStr, parameters);
-        
         }
         /// <summary>
         /// 获取用户身体信息 身高 腰围 体重 臀围 胸围 腿长 大腿围 小腿围 臂围 肤色 返回整个表
@@ -155,6 +156,22 @@ namespace Fashion.Code.DAL
                 new SqlParameter("@userName",userName)
             };
             return SqlHelper.ExecuteDataTable(sqlStr, parameters);
+        }
+
+        /// <summary>
+        /// 获取一定数量的专家的数据：id、用户名、头像url          
+        /// </summary>
+        /// <returns></returns>
+        public List<ExpertUserConsult_model> GetExpertConsult()
+        {
+            string sqlStr = "select User_Id,User_Name,User_TouXiangUrl from tb_User where User_RankId='3'";
+            DataTable dataTableExpertConsult = SqlHelper.ExecuteDataTable(sqlStr);
+            List<ExpertUserConsult_model> expertUserConsult_modelList = new List<ExpertUserConsult_model>();
+            foreach(DataRow row in dataTableExpertConsult.Rows)
+            {
+                expertUserConsult_modelList.Add(ToModelExpertUserConsult(row));
+            }
+            return expertUserConsult_modelList;
         }
 
 
@@ -180,6 +197,8 @@ namespace Fashion.Code.DAL
             user_model.skinColor = userData.Rows[0]["User_SkinColor"].ToString();
             return user_model;
         }
+
+        
 
         /// <summary>
         /// 更新个人信息的身高 腰围 体重 臀围 胸围 腿长 大腿围 小腿围 臂围 肤色 成功返回1
@@ -217,6 +236,9 @@ namespace Fashion.Code.DAL
             };
             return SqlHelper.ExecuteNonquery(sqlStr, parameters);
         }
+
+
+        
 
         /// <summary>
         /// 更新个人信息的数据 真实姓名，生日，职业，手机号，学历，兴趣
@@ -409,6 +431,19 @@ namespace Fashion.Code.DAL
             return model;
         }
 
+        /// <summary>
+        /// 将row数据转化为ExpertUserConsult_model数据（专家的数据）
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        private static ExpertUserConsult_model ToModelExpertUserConsult(DataRow row)
+        {
+            ExpertUserConsult_model expertUserConsult_model = new ExpertUserConsult_model();
+            expertUserConsult_model.expertId = (int)row["User_Id"];
+            expertUserConsult_model.userName = row["User_Name"].ToString();
+            expertUserConsult_model.touXiangUrl = row["User_TouXiangUrl"].ToString();
+            return expertUserConsult_model;
+        }
 
 
 

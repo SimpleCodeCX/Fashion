@@ -7,6 +7,21 @@
 
     <script src="~/Scripts/jquery-2.0.0.min.js"></script>
     <script src="~/Scripts/MyScripts/Login.js"></script>
+    <script type="text/javascript">
+        //本函数实现退出登录
+        function AjaxMakeLoginOut()
+        {
+            $.ajax({
+                url: "../User/AjaxMakeUnLogin",
+                success: function (data) {
+                    if (data == "1")
+                    {
+                        window.location.href = "../Topic/LoginRemind";
+                    }
+                }
+            });
+        }
+    </script>
     <script>
 
         //本函数实现鼠标移上快捷栏时，快捷栏的图标变成字
@@ -130,6 +145,7 @@
             width: 140px;
             line-height: 35px;
             color: white;
+            position:relative;
         }
 
             .username li:hover {
@@ -346,9 +362,9 @@
 
         </div>
         <ul id="login_xs" class="username" style="display:block;">
-            <li class="li_css" onclick="window.location.href = '../../People/Index';">
+            <li class="li_css" >
                 <img id="img_touXiang" style="width:20px;margin-top:8px;height:20px;" class="img_jiange" />
-                <font id="theUserNameFont"></font>
+                <font id="theUserNameFont" ></font>
                 <ul class="userset">
                     <li class="li_css" onclick="window.location.href = '../../People/Index';">
                         <img src="/Images/Layout-myzhuye.png" class="img_jiange" />我的主页
@@ -356,7 +372,7 @@
                     <li class="li_css" onclick="">
                         <img src="/Images/Layout-set.png" class="img_jiange" />设置
                     </li>
-                    <li class="li_css" onclick="">
+                    <li class="li_css" onclick="AjaxMakeLoginOut();">
                         <img src="/Images/Layout-out.png" class="img_jiange" />退出
                     </li>
                 </ul>

@@ -109,7 +109,7 @@ function question_sousuo() {
 }
 
 try {     //关于显示隐藏滚动条js
-    var isStyle = document.getElementById("hsScroll").type; ask_div
+    var isStyle = document.getElementById("hsScroll").type; //ask_div
 }
 catch (err) {     //关于显示隐藏滚动条js
     document.write('<style id="ahsScroll" type="text/css">.hScroll{overflow:hidden;} .sScroll{}</style>');

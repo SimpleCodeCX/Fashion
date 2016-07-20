@@ -1,33 +1,32 @@
 ﻿@{
-    Layout = null;
+    
 }
 
 <!DOCTYPE html>
-<html>
+<html style="height:100%;">
 <head>
     <title>Zero Clipboard Test</title>
     <meta charset="utf-8">
+    <style>
+        div ul li .aa{
+            background-color:blue;
+        }
+    </style>
+    <script type="text/javascript">
+        function a()
+        {
+            alert($(document).scrollTop());
+        }
+        function b()
+        {
+            $(document).scrollTop(0);
+        }
+    </script>
 </head>
-<body>
-    <!--
-        说明：
-        1.data-clipboard-target 输入要复制的对象的ID
-    -->
-    <button id="d_clip_button" class="my_clip_button" data-clipboard-target="fe_text"><b>复制到剪贴板</b></button>
-    <br />
-    <textarea id="fe_text" cols="50" rows="3">输入需要复制的内容</textarea>
+<body style="height: 2000px;border:1px solid red;">
+    <div style="height:200%;">
+        <input type="button" style="position:fixed;"  value="获取滚动轮的值" onclick="a();"/>
+        <input type="button" style="position:fixed;" value="回到顶部" onclick="b();" />
+    </div>
 </body>
 </html>
-<script src="~/Scripts/ZeroClipboard.js"></script>
-<script type="text/javascript">
-    // 定义一个新的复制对象
-    var clip = new ZeroClipboard(document.getElementById("d_clip_button"), {
-        moviePath: "../Scripts/ZeroClipboard.swf"
-    });
-
-    // 复制内容到剪贴板成功后的操作
-    clip.on('complete', function (client, args) {
-        alert("复制成功，复制内容为：" + args.text);
-    });
-
-</script>

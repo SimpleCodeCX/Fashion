@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <title>@ViewBag.Title</title>
 
     <script src="~/Scripts/jquery-2.0.0.min.js"></script>
@@ -151,7 +153,7 @@
                         <div id="messageDiv" onclick="window.location = '../People/myMessages'"></div>
                         <span class="prompt-bg">1</span><!--/////里面1为未读信息数，当没有未读信息时，<span class="prompt-bg">模块隐藏-->
                         <div class="dropdown" style="float:left;">
-                            <div id="userDiv" data-toggle="dropdown" class="dropdown-toggle" onmouseover="dropdownOpen()">
+                            <div id="userDiv" data-toggle="dropdown" class="dropdown-toggle" onmouseover="dropdownOpen()" onmouseout="dropdownClose();">
                                 <div id="head_portraitDiv" style="color:white;">
                                     <img id="img_touXiang" src="~/Images/Header/default-tx.jpg" style="width:98%;float:left;border-radius:2px;" />
                                 </div>
